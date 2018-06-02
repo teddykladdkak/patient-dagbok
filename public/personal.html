@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test Patient Dagbok</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" href="style/font-awesome/css/fontawesome-all.css">
+	<link rel="stylesheet" href="style/main.css">
+	<script type="application/javascript" src="mall.js"></script>
+	<script type="text/javascript" src="script/instascan.min.js"></script>
+	<script type="text/javascript">
+		function makeid(namn){return namn.replace(/\s/g,'').replace( /\W/g , '').toLowerCase();};
+		function arraytotext(array){
+			var text = [];
+			for (var i = 0; i < array.length; i++){
+				text.push(array[i].typ + '||||' + array[i].text + '||||' + array[i].href);
+			};
+			return text.join('||||||||');
+		};
+		function show(id, element){
+			//document.getElementById('left').setAttribute('style', 'color: white;')
+			element.parentElement.setAttribute('style', 'display: none;');
+			document.getElementById(id).removeAttribute('style');
+		};
+		//Sätter igång loopen
+		function startreadmall(){
+			//for (var i = mall.length - 1; i >= 0; i--) {
+			newwrapper('start', false);
+			var buttonwrapper = document.getElementById('start');
+			var skrivin = document.createElement('input');
+				skrivin.setAttribute('type', 'button');
+				skrivin.setAttribute('value', 'Skriv in Patient');
+				skrivin.setAttribute('onclick', 'skrivin();');
+			//<input type="button" value="Skriv in Patient" onclick="skrivin();">
+			buttonwrapper.appendChild(skrivin);
+			brake(buttonwrapper);
+			for (var i = 0; i < mall.buttons.length; i++){
+				bulidbuttons(mall.buttons[i], 'start');
+			};
+		};
+		function bulidbuttons(data, wrapperid){
+			if(!data.forts){}else{
+				if(data.forts.length == 0){
+					addbutton(data.namn, wrapperid, '', '');
+				}else{
+					if(!data.forts[0].typ){
+						var funk = 'show';
+						var nextid = makeid(data.namn);
+						newwrapper(nextid, true);
+						for (var i = 0; i < data.forts.length; i++){
+							bulidbuttons(data.forts[i], nextid);
+						};
+					}else{
+						var funk = 'pasteinfo';
+						var nextid = arraytotext(data.forts);
+					};
+					addbutton(data.namn, wrapperid, nextid, funk);
+				};
+			};
+		};
+		function brake(element){element.appendChild(document.createElement('br'));};
+		function addbutton(buttontext, wrapperid, nextid, action){
+			if(!wrapperid){var wrapperid = 'buttons'};
+			if(action == 'show'){var filler = '...';}else{var filler = '';};
+			var wrapper = document.getElementById(wrapperid);
+				var input = document.createElement('input');
+					input.setAttribute('value', buttontext + filler);
+					input.setAttribute('type', 'button');
+				if(!action){
+					input.setAttribute('disabled', 'disabled');
+				}else{
+					input.setAttribute('onclick', action + '("' + nextid + '", this)')
+				};
+				wrapper.appendChild(input);
+		};
+		function newwrapper(id, hide){
+			//Lägg till funktion som läser av sidan ifall id redan existerar? Använda return för att visa vilket id som valdes?
+			var wrapper = document.getElementById('buttons');
+				var start = document.createElement('div');
+					start.setAttribute('id', id);
+					if(!hide){}else{
+						start.setAttribute('style', 'display: none;');
+					};
+				wrapper.appendChild(start);
+		};
+		function showfirstelem(){
+			var wrapper = document.getElementById('buttons');
+			var alldivs = wrapper.getElementsByTagName('div');
+			for (var i = alldivs.length - 1; i >= 0; i--) {
+				alldivs[i].setAttribute('style', 'display: none;');
+			};
+			alldivs[0].removeAttribute('style');
+		};
+		function load(){
+			startreadmall();
+		};
+	</script>
+	<style type="text/css">
+		#buttons {
+			display: none;
+		}
+	</style>
+	<script type="text/javascript">
+		function startscan(){
+			document.getElementById('preview').removeAttribute('style');
+			let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+				scanner.addListener('scan', function (content) {
+					console.log(content);
+					document.getElementById('key').value = content;
+					koppla();
+					scanner.stop();
+				});
+			Instascan.Camera.getCameras().then(function (cameras) {
+				if (cameras.length > 0) {
+					scanner.start(cameras[0]);
+				} else {
+					console.error('No cameras found.');
+				}
+			}).catch(function (e) {
+				console.error(e);
+			});
+		};
+	</script>
+</head>
+<body onload="load();">
+	<div class="head wrappertable noselect">
+		<div class="wrapperrow">
+			<div class="wrappercell">
+				<i class="fas fa-info-circle" data-active="false" id="infoicon"></i>
+			</div>
+			<div class="wrappercell">
+				<p>PatientDagboken</p>
+			</div>
+			<div class="wrappercell">
+				<i class="fas fa-sign-in-alt" onclick="startscan();" id="connectbutton"></i>
+			</div>
+		</div>
+	</div>
+	<div id="connect">
+		<input type="text" id="key"><br/>
+		<video id="preview" style="display: none;"></video>
+		<input type="button" value="Koppla" onclick="koppla();">
+	</div>
+	<div id="buttons">
+		
+	</div>
+<script src="socket.io/socket.io.js"></script>
+<script type="text/javascript">
+	var geturl = window.location.href.replace('http://', '').replace('https://', '').split('/')[0];
+	//Lyssnar om server säger något
+	var socket = io.connect(geturl);
+	// Berättar för användare ifall koppling till server försvinner
+	socket.on('disconnect', function () {
+		
+	});
+	socket.on('message', function (data) {console.log(data);});
+	function koppla(){
+		var button = document.getElementById('connectbutton');
+		button.setAttribute('onclick', 'discon();');
+		button.setAttribute('class', 'fas fa-sign-out-alt');
+		var key = document.getElementById('key').value;
+		socket.emit('sendconnect', key);
+	};
+	function discon(){
+		var button = document.getElementById('connectbutton');
+		button.setAttribute('onclick', 'startscan();');
+		button.setAttribute('class', 'fas fa-sign-in-alt');
+		document.getElementById('key').value = '';
+		document.getElementById('connect').setAttribute('style', 'display: block;');
+		document.getElementById('buttons').setAttribute('style', 'display: none;');
+		var video = document.getElementById('preview');
+			video.removeAttribute('data-video');
+			video.removeAttribute('autoplay');
+			video.removeAttribute('class');
+			video.removeAttribute('src');
+			video.setAttribute('style', 'display: none;');
+		//<video id="preview" style="display: none;"></video>
+		//<video id="preview" data-video="0" autoplay="autoplay" class="active" style="transform: scaleX(-1);" src="blob:http://localhost:3333/82ab1353-d340-4bde-9de5-e7cdabb12658"></video>
+	};
+	socket.on('succsess', function(data) {
+		console.log('Nu kan du skicka info till detta id: "' + document.getElementById('key').value + '"');
+		document.getElementById('buttons').setAttribute('style', 'display: block;');
+		document.getElementById('connect').setAttribute('style', 'display: none;');
+	});
+	socket.on('err', function(data) {
+		discon();
+	});
+	function skrivin(){
+		var userid = document.getElementById('key').value;
+		var tosend = {"id": userid, "data": mall.pages};
+		socket.emit('skrivin', tosend);
+		showfirstelem();
+	};
+	function pasteinfo(array, element){
+		var splitarray = array.split('||||||||');
+		var data = [];
+		for (var i = 0; i < splitarray.length; i++){
+			var tillobjekt = splitarray[i].split('||||');
+			data.push(tillobjekt);
+		};
+		var userid = document.getElementById('key').value;
+		var tosend = {"id": userid, "data": data};
+		socket.emit('sendinfo', tosend);
+		showfirstelem();
+	};
+</script>
+</body>
+</html>

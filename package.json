@@ -1,0 +1,19 @@
+{
+  "name": "patient-dagbok",
+  "version": "1.0.0",
+  "description": "Målet med detta projekt är att möta två stora behov som existerar i dagens hälso- & sjukvård. Det är önskemålet om att introducera dagboksskrivandet för patienten, vilket värnar om personcentrerad vård och skapa ordning i kaoset av all information som florerar.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "eHälsa",
+    "Dagbok",
+    "Patient",
+    "Sjukvård",
+    "Information",
+    "Patientcentrerat"
+  ],
+  "author": "Mattias Lidbeck",
+  "license": "ISC"
+}

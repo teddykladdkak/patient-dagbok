@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test Patient Dagbok</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="yes" name="mobile-web-app-capable" />
+	<meta content="minimum-scale=1.0, width=device-width, maximum-scale=0.6667, user-scalable=no" name="viewport" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<link rel="stylesheet" href="style/font-awesome/css/fontawesome-all.css">
+	<link rel="stylesheet" href="style/main.css">
+	<link rel="stylesheet" href="style/modal.css">
+	<script type="application/javascript" src="script/encrypt.js"></script>
+	<script type="application/javascript" src="mall.js"></script>
+</head>
+<body onload="load();">
+	<div id="myModal" class="modal">
+		<span class="close" onclick="hidelarger();">&times;</span>
+		<div class="modal-content" id="img01"></div>
+		<div id="caption"></div>
+	</div>
+		<div class="head wrappertable noselect">
+			<div class="wrapperrow">
+				<div class="wrappercell">
+					<i class="fas fa-info-circle" data-active="false" id="infoicon" onclick="showmenu(this)"></i>
+				</div>
+				<div class="wrappercell">
+					<p>PatientDagboken</p>
+				</div>
+				<div class="wrappercell">
+					<i class="fas fa-qrcode" data-active="false" id="qricon" onclick="showqr(this)"></i>
+				</div>
+			</div>
+		</div>
+		<div id="menu" class="wrapper noselect" style="display: none;">
+			<p>Test 1</p>
+			<p>Vad är PatientDagboken?</p>
+		</div>
+		<div id="password" class="noselect wrapper" style="display: none;">
+			<input type="tel" id="pwinput" style="display: none;">
+			<p id="pwhead">Skriv lösenord</p>
+			<table><tr id="pwdots">
+				<td><span></span></td>
+				<td><span></span></td>
+				<td><span></span></td>
+				<td><span></span></td>
+			</tr></table>
+			<table id="pwnumbers"><tr>
+				<td onclick="addpwnum(this)">1</td>
+				<td onclick="addpwnum(this)">2</td>
+				<td onclick="addpwnum(this)">3</td>
+			</tr><tr>
+				<td onclick="addpwnum(this)">4</td>
+				<td onclick="addpwnum(this)">5</td>
+				<td onclick="addpwnum(this)">6</td>
+			</tr><tr>
+				<td onclick="addpwnum(this)">7</td>
+				<td onclick="addpwnum(this)">8</td>
+				<td onclick="addpwnum(this)">9</td>
+			</tr><tr>
+				<td onclick="removepwnum()"><i class="far fa-caret-square-left"></i></td>
+				<td onclick="addpwnum(this)">0</td>
+			</tr></table>
+		</div>
+		<div id="qrwrapper" class="noselect wrapper" style="display: none;">
+			<input type="text" id="key">
+			<img src="#" id="qrimg" alt="User ID">
+		</div>
+		<div id="patient" class="wrapper" style="display: none;">
+			<div id="datumhead" class="noselect">
+				<div class="wrappertable">
+					<div class="wrapperrow">
+						<div class="wrappercell">
+							<i class="fas fa-caret-square-left" onclick="annandag('-')"></i>
+						</div>
+						<div class="wrappercell" id="datum" onclick="writeCal(this)">
+							20XX-XX-XX
+						</div>
+						<div class="wrappercell">
+							<i class="fas fa-caret-square-right" onclick="annandag('+')"></i>
+						</div>
+					</div>
+				</div>
+				<!-- <div id="calendar">
+
+				</div> -->
+			</div>
+			<div id="bedomningwrapper">
+				<div id="bedomning"></div>
+			</div>
+			<div id="infowrapper">
+				<div id="info" contenteditable="true" onkeyup="save();">
+					
+				</div>
+			</div>
+		</div>
+		<div class="succe" style="display: none;">
+			<div class="suceewrapper">
+				<p>Du är nu kopplad till vårdpersonalen!</p><br/>
+				<img src="extra/succe.png" width="60%">
+			</div>
+		</div>
+		<div id="informationswrappers"></div>
+<script type="application/javascript" src="script/main.js"></script>
+<script src="socket.io/socket.io.js"></script>
+<script type="text/javascript">
+	var geturl = window.location.href.replace('http://', '').replace('https://', '').split('/')[0];
+	//Lyssnar om server säger något
+	var socket = io.connect(geturl);
+	// Berättar för användare ifall koppling till server försvinner
+	socket.on('disconnect', function () {
+		
+	});
+	socket.on('message', function (data) {console.log(data);});
+	socket.on('key', function(data) {
+		console.log(data);
+		document.getElementById('qrimg').setAttribute('src', '/img/qr.png?' + data);
+		document.getElementById('key').value = data;
+	});
+	socket.on('succsess', function(data) {
+		console.log('Du kan nu ta mot information!')
+		socket.emit('confirm', data);
+	});
+	socket.on('pasteinfo', function(data) {
+		console.log('Det borde komma info här!');
+		console.log(data);
+		pasteinfo(data);
+		save();
+		var qricon = document.getElementById('qricon');
+		if(qricon.getAttribute('data-active') == 'true'){
+			showqr(qricon);
+		};
+	});
+	socket.on('skrivin', function(data) {
+		localStorage.setItem('skrivin', JSON.stringify(data));
+		bulidmenu();
+		showwrapper('patient');
+	});
+</script>
+</body>
+</html>
