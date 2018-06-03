@@ -369,6 +369,11 @@ function writeinformation(id, data){
 						var text = document.createTextNode(getLanguage(data[i].text));
 						h1.appendChild(text);
 					wrapper.appendChild(h1);
+				}else if(data[i].type == 'underhead'){
+					var h2 = document.createElement('h2');
+						var text = document.createTextNode(getLanguage(data[i].text));
+						h2.appendChild(text);
+					wrapper.appendChild(h2);
 				}else if(data[i].type == 'text'){
 					var p = document.createElement('p');
 						var text = document.createTextNode(getLanguage(data[i].text));
@@ -437,12 +442,24 @@ function bulidmenu(){
 				"eng": "Settings"
 			}
 		},{
+			"type": "underhead",
+			"text": {
+				"sv": "Informations sidor",
+				"eng": "Information pages"
+			}
+		},{
 			"type": "button",
 			"text": {
 				"sv": "Ta bort avdelningsinformation",
 				"eng": "Remove ward information"
 			},
 			"click": "settingskrivut();"
+		},{
+			"type": "underhead",
+			"text": {
+				"sv": "Språk",
+				"eng": "Language"
+			}
 		},{
 			"type": "select",
 			"placeholder": {

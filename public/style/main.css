@@ -6,6 +6,9 @@ h1 {
 	color: #FFF;
 	margin-bottom: 0px;
 }
+h2 {
+	text-align: left;
+}
 #scanner, #qr, .succe {
 	height: 100%;
 	background-color: #000;
@@ -39,10 +42,13 @@ h1 {
 .suceewrapper {
 	display: block;
 }
-input {
+input, select {
 	zoom: 2;
 	display: block;
 	width: 100%;
+}
+#installningar input, #installningar select {
+	margin-bottom: 5px;
 }
 /*Påverkar patientvyn*/
 #datumhead, #bedomning, #info, .innerinformation {
