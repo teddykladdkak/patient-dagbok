@@ -1,3 +1,23 @@
+var modules = [{
+	"text": {
+		"sv": "Hur mår du idag?",
+		"eng": "How do you feel today?"
+	},
+	"min": "1",
+	"val": "3",
+	"max": "5",
+	"onchange": "moodscale"
+},{
+	"text": {
+		"sv": "Hur är smärtan idag?",
+		"eng": "Whats your pain scale?"
+	},
+	"min": "1",
+	"val": "1",
+	"max": "10",
+	"onchange": "painscale"
+}];
+
 function brake(element){element.appendChild(document.createElement('br'));};
 function pasteinfo(data){
 	var info = document.getElementById('info');
@@ -187,11 +207,14 @@ function scale(text, min, val, max, onchange){
 				input.setAttribute('type', 'range');
 				input.setAttribute('min', min);
 				input.setAttribute('max', max);
-				input.setAttribute('value', loadModule(onchange));
+				input.setAttribute('value', loadModule(onchange, val));
 				input.setAttribute('onchange', onchange + '(this)');
 			inputwrapper.appendChild(input);
 		wrapper.appendChild(inputwrapper);
 	window[onchange](input);
+};
+function painscale(element){
+	saveModule('painscale', element.value);
 };
 function moodscale(element){
 	var wrapper = element.parentElement.parentElement.getElementsByClassName('valuewrapper')[0];
@@ -222,11 +245,11 @@ function saveModule(id, val){
 		localStorage.setItem(id + '-' + datum, tosave);
 	};
 };
-function loadModule(id){
+function loadModule(id, val){
 	var datum = document.getElementById('datum').innerText;
 	var savedata = localStorage.getItem(id + '-' + datum);
 	if(!savedata){
-		return 3;
+		return val;
 	}else{
 		var encodeinfo = sjcl.decrypt(sessionStorage.getItem('pw'), savedata);
 		return encodeinfo;
@@ -260,9 +283,25 @@ function loadsave(){
 		var encodeinfo = sjcl.decrypt(sessionStorage.getItem('pw'), data);
 		document.getElementById('info').innerHTML = encodeinfo;
 	};
-	scale('Hur mår du idag?', '1', '3', '5', 'moodscale');
+	loadSettingScale();
 	//scale('Vad är det för väder idag?', '1', '3', '5', 'vader');
 	showwrapper('patient');
+};
+function loadSettingScale(){
+	removechilds(document.getElementById('bedomning'));
+	var settingscale = localStorage.getItem('settingscale');
+	if(!settingscale){
+		scale(getLanguage(modules[0].text), modules[0].min, modules[0].val, modules[0].max, modules[0].onchange);
+	}else{
+		var toarray = JSON.parse(settingscale);
+		for (var i = 0; i < toarray.length; i++){
+			var scaleinformation = JSON.parse(toarray[i]);
+			scale(getLanguage(scaleinformation.text), scaleinformation.min, scaleinformation.val, scaleinformation.max, scaleinformation.onchange);
+			var checkbox = document.getElementById('settingscale' + scaleinformation.onchange);
+				checkbox.setAttribute('class', 'fas fa-toggle-on settingscale');
+				checkbox.setAttribute('data-status', 'on');
+		};
+	};
 };
 function annandag(todo, date){
 	var datelem = document.getElementById('datum');
@@ -408,10 +447,46 @@ function writeinformation(id, data){
 							select.appendChild(option);
 						};
 					wrapper.appendChild(select);
+				}else if(data[i].type == 'scale'){
+					for (var a = 0; a < modules.length; a++){
+						var checkdiv = document.createElement('p');
+							var checkbox = document.createElement('i');
+								checkbox.setAttribute('id', 'settingscale' + modules[a].onchange);
+								checkbox.setAttribute('class', 'fas fa-toggle-off settingscale');
+								checkbox.setAttribute('data-prop', JSON.stringify(modules[a]));
+								checkbox.setAttribute('onclick', 'checkscale(this);');
+								checkbox.setAttribute('data-status', 'off');
+							checkdiv.appendChild(checkbox);
+							var checktext = document.createTextNode(getLanguage(modules[a].text));
+							checkdiv.appendChild(checktext);
+						wrapper.appendChild(checkdiv);
+					};
 				};
 			};
 			outwrapper.appendChild(wrapper);
 		body.appendChild(outwrapper);
+};
+function checkscale(element){
+	if(element.getAttribute('data-status') == 'off'){
+		element.setAttribute('class', 'fas fa-toggle-on settingscale');
+		element.setAttribute('data-status', 'on');
+	}else{
+		element.setAttribute('class', 'fas fa-toggle-off settingscale');
+		element.setAttribute('data-status', 'off');
+	};
+	var allsettingscale = document.getElementsByClassName('settingscale');
+	var tosave = [];
+	for (var i = 0; i < allsettingscale.length; i++){
+		if(allsettingscale[i].getAttribute('data-status') == 'on'){
+			tosave.push(allsettingscale[i].getAttribute('data-prop'));
+		};
+	};
+	if(tosave.length == 0){
+		localStorage.removeItem('settingscale');
+	}else{
+		localStorage.setItem('settingscale', JSON.stringify(tosave));
+	};
+	loadSettingScale();
 };
 function bulidmenu(){
 	var body = document.getElementById('informationswrappers');
@@ -476,6 +551,14 @@ function bulidmenu(){
 			},
 			"options": ['sv', 'eng'],
 			"change": "andrasprak('andra', this);"
+		},{
+			"type": "underhead",
+			"text": {
+				"sv": "Skala",
+				"eng": "Scale"
+			}
+		},{
+			"type": "scale"
 		}]
 	}, {
 		"id": "vadardetta",
@@ -511,6 +594,17 @@ function bulidmenu(){
 		wrapper.appendChild(p);
 		writeinformation(standard[i].id, standard[i].content);
 	};
+	/*var settingwrapp = document.getElementById('installningar');
+	for (var i = 0; i < scaledata.length; i++){
+		var checkdiv = document.createElement('div');
+			var checkbox = document.createElement('i');
+				checkbox.setAttribute('id', 'settingscale' + scaledata[i].onchange);
+				checkbox.setAttribute('class', 'fas fa-toggle-off settingscale');
+			checkdiv.appendChild(checkbox);
+			var checktext = document.createTextNode(getLanguage(scaledata[i].text));
+			checkdiv.appendChild(checktext);
+		settingwrapp.appendChild(checkdiv);
+	};*/
 };
 function settingskrivut(){
 	localStorage.removeItem('skrivin');
