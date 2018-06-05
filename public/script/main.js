@@ -285,7 +285,16 @@ function loadsave(){
 	};
 	loadSettingScale();
 	//scale('Vad är det för väder idag?', '1', '3', '5', 'vader');
+	loadSprak();
 	showwrapper('patient');
+};
+function loadSprak(){
+	if(!localStorage.getItem('firstlang')){}else{
+		document.getElementById('settingsprakforsta').value = localStorage.getItem('firstlang');
+	};
+	if(!localStorage.getItem('secondlang')){}else{
+		document.getElementById('settingsprakandra').value = localStorage.getItem('secondlang');
+	};
 };
 function loadSettingScale(){
 	removechilds(document.getElementById('bedomning'));
@@ -303,8 +312,32 @@ function loadSettingScale(){
 		};
 	};
 };
+function newmonth(ar, manad, todo){
+	var nyar = ar;
+	if(todo == '-'){
+		var nymanad = parseInt(manad) - 1;
+	}else if(todo == '+'){
+		var nymanad = parseInt(manad) + 1;
+	}else{
+		var nymanad = manad;
+	};
+	if(nymanad <= 0){
+		var nyar = parseInt(ar) - 1;
+	};
+	if(nymanad >= 13){
+		var nyar = parseInt(ar) + 1;
+	};
+	return {"ar": nyar, "manad": addzero(nymanad)};
+};
+function annanmanad(todo){
+	var datesplit = document.getElementById('datum').getElementsByTagName('th')[0].innerText.split('-');
+	var nymanad = newmonth(datesplit[0], datesplit[1], todo);
+	writeCal(nymanad.ar, nymanad.manad);
+};
 function annandag(todo, date){
 	var datelem = document.getElementById('datum');
+	document.getElementById('dateback').setAttribute('onclick', 'annandag(\'-\')');
+	document.getElementById('forward').setAttribute('onclick', 'annandag(\'+\')');
 	var nuvarandedatum = datelem.innerText;
 	var milisec = getDate(nuvarandedatum, '01:00', '').milisec;
 	removechilds(document.getElementById('bedomning'));
@@ -434,6 +467,7 @@ function writeinformation(id, data){
 				}else if(data[i].type == 'select'){
 					var select = document.createElement('select');
 						select.setAttribute('onchange', data[i].change);
+						select.setAttribute('id', data[i].id);
 						var first = document.createElement('option');
 							first.setAttribute('value', '');
 							var firsttext = document.createTextNode(getLanguage(data[i].placeholder));
@@ -537,6 +571,7 @@ function bulidmenu(){
 			}
 		},{
 			"type": "select",
+			"id": "settingsprakforsta",
 			"placeholder": {
 				"sv": "Välj förstaspråk",
 				"eng": "Select first language"
@@ -545,6 +580,7 @@ function bulidmenu(){
 			"change": "andrasprak('forsta', this);"
 		},{
 			"type": "select",
+			"id": "settingsprakandra",
 			"placeholder": {
 				"sv": "Välj andraspråk",
 				"eng": "Select second language"
@@ -678,18 +714,25 @@ function calendararray(ar, manad){
 	return manad;
 };
 function dayContainInfo(ar, manad, dag){
+	if(getDate().datum == ar + '-' + manad + '-' + dag){
+		var todaystyle = ' border: solid 2px #000';
+	}else{
+		var todaystyle = '';
+	};
 	if(dag == '' || !dag){
-		return 'color: darkgray;';
+		return 'color: darkgray;' + todaystyle;
 	}else{
 		if(!localStorage.getItem('patdag-' + ar + '-' + manad + '-' + dag)){
-			return 'color: darkgray;';
+			return 'color: darkgray;' + todaystyle;
 		}else{
-			return 'font-weight: bold;';
+			return 'font-weight: bold;' + todaystyle;
 		};
 	};
 };
-function writeCal(element, ar, manad){
-	element.removeAttribute('onclick');
+function writeCal(ar, manad){
+	document.getElementById('datum').removeAttribute('onclick');
+	document.getElementById('dateback').setAttribute('onclick', 'annanmanad(\'-\')');
+	document.getElementById('forward').setAttribute('onclick', 'annanmanad(\'+\')');
 	var calendar = document.getElementById('datum');
 	if(!ar || !manad){
 		var datesplit = calendar.innerText.split('-');

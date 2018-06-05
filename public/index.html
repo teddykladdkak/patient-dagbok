@@ -72,13 +72,13 @@
 				<div class="wrappertable">
 					<div class="wrapperrow">
 						<div class="wrappercell">
-							<i class="fas fa-caret-square-left" onclick="annandag('-')"></i>
+							<i class="fas fa-caret-square-left" onclick="annandag('-')" id="dateback"></i>
 						</div>
-						<div class="wrappercell" id="datum" onclick="writeCal(this)">
+						<div class="wrappercell" id="datum" onclick="writeCal()" data-inside="dat">
 							20XX-XX-XX
 						</div>
 						<div class="wrappercell">
-							<i class="fas fa-caret-square-right" onclick="annandag('+')"></i>
+							<i class="fas fa-caret-square-right" onclick="annandag('+')" id="forward"></i>
 						</div>
 					</div>
 				</div>
