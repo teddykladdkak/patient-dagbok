@@ -2,11 +2,11 @@ body {
 	background-color: #000;
 	text-align: center;
 }
-h1 {
+#informationswrappers h1 {
 	color: #FFF;
 	margin-bottom: 0px;
 }
-h2 {
+#informationswrappers h2 {
 	text-align: left;
 }
 #scanner, #qr, .succe {
@@ -90,9 +90,7 @@ input, select {
 	text-align: left;
 }
 #info img, #info video {
-	width: 100%;
 	max-width: 550px;
-	display: block;
 }
 #datumhead span {
 	display: inline-block;

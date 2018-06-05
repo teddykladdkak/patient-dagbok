@@ -28,8 +28,10 @@ För att kommunikation och information ska säkras får patienten välja en fyrs
 Egenutvecklad teknik/lokig vilket användts i mina tidigare projekt. Stommen är VIPS och bakom utarbetad information som används till vardags.
 ### QR-läsare
 För att vårpersonalen ska kunna skicka information till patientens dagbok, behöver de dagbokens för tillfället unika ID, detta får vårdpersonalen genom att scanna QR-koden. För detta används instascan.js (https://github.com/schmich/instascan) som enbart verkar lokalt och är inte i behov av serverlogik. Denna teknik stödjs i nuläget enbart av Android (inte IOS) och datorer.
-### Font Awsome
+### Ikoner
 För att skapa en minimalistisk design används Font Awsome (https://fontawesome.com/).
+### Text regigerare
+Textredigeraren bygger på QuillJS (https://quilljs.com/), den skapar en meny för användaren och ger möjlighet att ändra texten och lägga till bilder m.m.
 
 ## Säkerhet
 All information lagras lokalt på patientens enhet. Ingen information skickas utanför telefonen och det är upp till patienten själv att bestämma ifall den vill delge vårdpersonalen sin information.

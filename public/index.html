@@ -11,6 +11,7 @@
 	<link rel="stylesheet" href="style/font-awesome/css/fontawesome-all.css">
 	<link rel="stylesheet" href="style/main.css">
 	<link rel="stylesheet" href="style/modal.css">
+	<link href="style/quill.snow.css" rel="stylesheet">
 	<script type="application/javascript" src="script/encrypt.js"></script>
 	<script type="application/javascript" src="mall.js"></script>
 </head>
@@ -90,18 +91,47 @@
 				<div id="bedomning"></div>
 			</div>
 			<div id="infowrapper">
-				<div id="info" contenteditable="true" onkeyup="save();">
-					
+				<div id="info"> <!--  onkeyup="save();" -->
+					<div id="editor"></div>
 				</div>
 			</div>
 		</div>
-		<div class="succe" style="display: none;">
+		<!-- <div class="succe" style="display: none;">
 			<div class="suceewrapper">
 				<p>Du är nu kopplad till vårdpersonalen!</p><br/>
 				<img src="extra/succe.png" width="60%">
 			</div>
-		</div>
+		</div> -->
 		<div id="informationswrappers"></div>
+
+<script src="script/quill.min.js"></script>
+<script>
+	var toolbarOptions = [
+		['bold', 'italic', 'underline'],
+		[{ 'header': 1 }, { 'header': 2 }, { 'header': [1, 2, 3, false] }],
+		[{ 'font': [] }],
+		[{ 'list': 'ordered'}, { 'list': 'bullet' }],
+		[{ 'align': [] }],
+		[{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+		[{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+		[{ 'direction': 'rtl' }],
+		['image', 'video'],
+		['clean']
+	];
+	var quill = new Quill('#editor', {
+		modules: {
+			toolbar: toolbarOptions
+		},
+		theme: 'snow'
+	});
+	quill.on('text-change', function(delta, oldDelta, source) {
+		if (source == 'api') {
+			console.log("An API call triggered this change.");
+		} else if (source == 'user') {
+			save();
+		};
+	});
+</script>
 <script type="application/javascript" src="script/main.js"></script>
 <script src="socket.io/socket.io.js"></script>
 <script type="text/javascript">

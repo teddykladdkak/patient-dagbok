@@ -20,7 +20,7 @@ var modules = [{
 
 function brake(element){element.appendChild(document.createElement('br'));};
 function pasteinfo(data){
-	var info = document.getElementById('info');
+	var info = document.getElementById('editor').getElementsByClassName('ql-editor')[0];
 	brake(info);
 	for (var i = 0; i < data.length; i++){
 		if(data[i][0] == 'text'){
@@ -45,7 +45,8 @@ function pasteinfo(data){
 				img.setAttribute('onclick', "larger(this)");
 			info.appendChild(img);
 		}else if(data[i][0] == 'video'){
-			var video = document.createElement('video');
+			/*<iframe class="ql-video ql-align-center" frameborder="0" allowfullscreen="true" src="https://player.vimeo.com/video/253905163" height="280" width="500"></iframe>*/
+			/*var video = document.createElement('video');
 				video.setAttribute('id', 'video');
 				video.setAttribute('alt', data[i][1]);
 				video.setAttribute('onclick', "larger(this)");
@@ -55,10 +56,23 @@ function pasteinfo(data){
 					source.setAttribute('src', data[i][2]);
 					source.setAttribute('type', "video/mp4");
 				video.appendChild(source);
+			info.appendChild(video);*/
+			var video = document.createElement('iframe');
+				video.setAttribute('class', 'ql-video ql-align-center');
+				video.setAttribute('alt', data[i][1]);
+				video.setAttribute('onclick', "larger(this)");
+				video.setAttribute('data-type', data[i][0]);
+				video.setAttribute('data-source', data[i][2]);
+				video.setAttribute('frameborder', '0');
+				video.setAttribute('allowfullscreen', 'true');
+				video.setAttribute('src', data[i][2]);
+				video.setAttribute('height', '280');
+				video.setAttribute('width', '500');
 			info.appendChild(video);
+			
 		}else if(data[i][0] == 'pdf'){
 			var img = document.createElement('img');
-				img.setAttribute('src', 'icons/pdf.png');
+				img.setAttribute('src', 'style/icons/pdf.png');
 				img.setAttribute('alt', data[i][1]);
 				img.setAttribute('data-type', data[i][0]);
 				img.setAttribute('data-source', data[i][2]);
@@ -272,16 +286,21 @@ function showqr(element){
 };
 //  http://bitwiseshiftleft.github.io/sjcl/
 function save(){
-	var tosave = sjcl.encrypt(sessionStorage.getItem('pw'), document.getElementById('info').innerHTML);
+	var tosave = sjcl.encrypt(sessionStorage.getItem('pw'), document.getElementById('editor').getElementsByClassName('ql-editor')[0].innerHTML);
 	localStorage.setItem('patdag-' + document.getElementById('datum').innerText, tosave);
 };
 function loadsave(){
 	var data = localStorage.getItem('patdag-' + document.getElementById('datum').innerText);
 	if(!data){
-		removechilds(document.getElementById('info'));
+		var editorelem = document.getElementById('editor').getElementsByClassName('ql-editor')[0];
+		removechilds(editorelem);
+		/*var dagenscitat = document.createElement('p');
+			var dagenscitattext = document.createTextNode('');
+			dagenscitat.appendChild(dagenscitattext);
+		editorelem.appendChild(dagenscitat);*/
 	}else{
 		var encodeinfo = sjcl.decrypt(sessionStorage.getItem('pw'), data);
-		document.getElementById('info').innerHTML = encodeinfo;
+		document.getElementById('editor').getElementsByClassName('ql-editor')[0].innerHTML = encodeinfo;
 	};
 	loadSettingScale();
 	//scale('Vad är det för väder idag?', '1', '3', '5', 'vader');
