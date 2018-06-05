@@ -125,6 +125,7 @@
 	socket.on('pasteinfo', function(data) {
 		console.log('Det borde komma info här!');
 		console.log(data);
+		annandag('=', getDate().datum);
 		pasteinfo(data);
 		save();
 		var qricon = document.getElementById('qricon');
