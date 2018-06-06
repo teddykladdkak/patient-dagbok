@@ -77,6 +77,7 @@ function pasteinfo(data){
 				img.setAttribute('data-type', data[i][0]);
 				img.setAttribute('data-source', data[i][2]);
 				img.setAttribute('onclick', "larger(this)");
+				img.setAttribute('class', "icon");
 			info.appendChild(img);
 		}else if(data[i][0] == 'youtube'){
 			var img = document.createElement('img');
@@ -103,6 +104,7 @@ function showfirstelem(){
 	document.getElementById('left').removeAttribute('style');
 };
 function larger(element){
+	document.activeElement.blur();
 	var type = element.getAttribute('data-type');
 	var modal = document.getElementById('myModal');
 	var modalImg = document.getElementById("img01");
@@ -111,6 +113,9 @@ function larger(element){
 			var img = document.createElement('img');
 				img.setAttribute('src', element.src);
 			modalImg.appendChild(img);
+			var captionText = document.getElementById("caption");
+				modal.style.display = "block";
+				captionText.innerHTML = element.getAttribute('alt');
 		}else if(type == 'youtube'){
 			var source = element.getAttribute('data-source');
 			var iframe = document.createElement('iframe');
@@ -120,6 +125,9 @@ function larger(element){
 				iframe.setAttribute('frameborder', '0');
 				iframe.setAttribute('allowfullscreen', 'allowfullscreen');
 			modalImg.appendChild(iframe);
+			var captionText = document.getElementById("caption");
+				modal.style.display = "block";
+				captionText.innerHTML = element.getAttribute('alt');
 		}else if(type == 'video'){
 			var source = element.getAttribute('data-source');
 			var video = document.createElement('video');
@@ -133,20 +141,22 @@ function larger(element){
 				video.appendChild(document.createTextNode('Tyvärr kan inte video laddas.'));
 			modalImg.appendChild(video);
 		}else if(type == 'pdf' || type == 'lank'){
+			document.getElementById('infoicon').setAttribute('class', 'fas fa-times-circle');
+			document.getElementById('infoicon').setAttribute('data-active', 'true');
+			showwrapper('preview');
 			var source = element.getAttribute('data-source');
-			var iframe = document.createElement('iframe');
-				iframe.setAttribute('width', '100%');
-				iframe.setAttribute('height', '315px');
-				iframe.setAttribute('src', source);
-				iframe.setAttribute('frameborder', '0');
-				iframe.setAttribute('allowfullscreen', 'allowfullscreen');
-			modalImg.appendChild(iframe);
+			var wrapperpew = document.getElementById('preview');
+				removechilds(wrapperpew);
+				var iframe = document.createElement('iframe');
+					iframe.setAttribute('width', '100%');
+					iframe.setAttribute('height', '100%');
+					iframe.setAttribute('src', source);
+					iframe.setAttribute('frameborder', '0');
+					iframe.setAttribute('allowfullscreen', 'allowfullscreen');
+				wrapperpew.appendChild(iframe);
 		}else{
 			console.log(type + ' som typ av info stödjs inte att visas i större förhandsgranskning!');
 		};
-	var captionText = document.getElementById("caption");
-		modal.style.display = "block";
-		captionText.innerHTML = element.getAttribute('alt');
 };
 function hidelarger(){
 	var modalImg = document.getElementById("img01");
