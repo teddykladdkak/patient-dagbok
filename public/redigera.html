@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Redigera</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" href="style/font-awesome/css/fontawesome-all.css">
+	<link rel="stylesheet" href="style/dragula.css">
+	<style type="text/css">
+		#body {
+			border-collapse: collapse;
+			width: 100%;
+		}
+		#body td:nth-child(even) {
+			width: 100%;
+		}
+		#buttons table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+		#buttons td {
+			border: solid 1px #000;
+			padding: 5px;
+			background-color: white;
+		}
+		#buttons td:nth-child(even) {
+			background-color: lightgray;
+		}
+		i:before {
+			font-size: 35px;
+			padding: 5px;
+			display: block;
+		}
+		#floadmeny {
+			position: fixed;
+			top: 5px;
+			left: 5px;
+			background-color: #ccc;
+			padding: 5px;
+		}
+		#floadmeny i {
+			margin-top: 5px;
+			margin-bottom: 5px;
+		}
+	</style>
+	<script type="application/javascript" src="mall.js"></script>
+	<script type="application/javascript" src="script/dragula.min.js"></script>
+	<script type="text/javascript">
+		function makeid(namn){return namn.replace(/\s/g,'').replace( /\W/g , '').toLowerCase();};
+		function arraytotext(array){
+			var text = [];
+			for (var i = 0; i < array.length; i++){
+				text.push(array[i].typ + '||||' + array[i].text + '||||' + array[i].href);
+			};
+			return text.join('||||||||');
+		};
+		function removechilds(parent){
+			if(parent.hasChildNodes()){
+				while (parent.hasChildNodes()) {
+					parent.removeChild(parent.firstChild);
+				};
+			};
+		};
+		function startreadmall(){
+			//for (var i = mall.length - 1; i >= 0; i--) {
+			newwrapper('start', false);
+			for (var i = 0; i < mall.buttons.length; i++){
+				bulidbuttons(mall.buttons[i], 'start');
+			};
+		};
+		function bulidbuttons(data, wrapperid){
+			if(!data.forts){}else{
+				if(data.forts.length == 0){
+					addbutton(data.namn, wrapperid, '', '');
+				}else{
+					if(!data.forts[0].typ){
+						var funk = 'show';
+						var nextid = makeid(data.namn);
+						newwrapper(nextid, true, wrapperid);
+						for (var i = 0; i < data.forts.length; i++){
+							bulidbuttons(data.forts[i], nextid);
+						};
+					}else{
+						var funk = 'pasteinfo';
+						var nextid = arraytotext(data.forts);
+					};
+					addbutton(data.namn, wrapperid, nextid, funk);
+				};
+			};
+		};
+		function brake(element){element.appendChild(document.createElement('br'));};
+		function show(id, element){
+			//document.getElementById('left').setAttribute('style', 'color: white;')
+			element.parentElement.parentElement.parentElement.setAttribute('style', 'display: none;');
+			document.getElementById(id).parentElement.removeAttribute('style');
+		};
+		function addbutton(buttontext, wrapperid, nextid, action){
+			if(!wrapperid){var wrapperid = 'buttons'};
+			if(action == 'show'){var filler = '...';}else{var filler = '';};
+			var wrapper = document.getElementById(wrapperid);
+				var tr = document.createElement('tr');
+					var td = document.createElement('td');
+						var tdtext = document.createTextNode(buttontext + filler);
+					//input.setAttribute('value', buttontext + filler);
+					//input.setAttribute('type', 'button');
+				if(!action){
+					//input.setAttribute('disabled', 'disabled');
+				}else{
+					td.setAttribute('onclick', action + '("' + nextid + '", this)')
+				};
+						td.appendChild(tdtext);
+					tr.appendChild(td);
+				wrapper.appendChild(tr);
+		};
+		function newwrapper(id, hide, tillbaka){
+			//Lägg till funktion som läser av sidan ifall id redan existerar? Använda return för att visa vilket id som valdes?
+			var wrapper = document.getElementById('buttons');
+				var table = document.createElement('table');
+					var tbody = document.createElement('tbody');
+						tbody.setAttribute('id', id);
+						if(!tillbaka){}else{
+							var tillbtr = document.createElement('tr');
+								var tillbtd = document.createElement('td');
+									tillbtd.setAttribute('onclick', 'show("' + tillbaka + '", this)');
+									var tillbtdtext = document.createTextNode('<-- Tillbaka');
+									tillbtd.appendChild(tillbtdtext);
+								tillbtr.appendChild(tillbtd);
+							tbody.appendChild(tillbtr);
+						};
+					if(!hide){}else{
+						table.setAttribute('style', 'display: none;');
+					};
+					table.appendChild(tbody);
+				wrapper.appendChild(table);
+		};
+		function adddrag(){
+			var drake = dragula({
+				copy: function (el, source) {
+					return source === document.getElementById('menynormal')
+				},
+				accepts: function (el, target) {
+					return target !== document.getElementById('menynormal')
+				},
+				removeOnSpill: true
+			});
+			drake.containers.push(document.getElementById('menynormal'));
+			var allelem = document.getElementById('body').getElementsByClassName('end');
+			for (var i = allelem.length - 1; i >= 0; i--) {
+				drake.containers.push(allelem[i]);
+			};
+		};
+	</script>
+</head>
+<body onload="startreadmall();">
+	<div id="floadmeny">
+		<i class="fas fa-align-left" aria-hidden="true"></i><br/>
+		<i class="fas fa-link" aria-hidden="true"></i><br/>
+		<i class="fas fa-image" aria-hidden="true"></i><br/>
+		<i class="fas fa-file-pdf" aria-hidden="true"></i><br/>
+		<i class="fab fa-youtube-square" aria-hidden="true"></i><br/>
+		<i class="fas fa-video" aria-hidden="true"></i><br/>
+	</div>
+	<table id="body">
+		<tbody>
+			<tr>
+				<td style="color: #FFF;padding: 5px;">
+					<i class="fas fa-align-left" aria-hidden="true"></i><br/>
+					<i class="fas fa-link" aria-hidden="true"></i><br/>
+					<i class="fas fa-image" aria-hidden="true"></i><br/>
+					<i class="fas fa-file-pdf" aria-hidden="true"></i><br/>
+					<i class="fab fa-youtube-square" aria-hidden="true"></i><br/>
+					<i class="fas fa-video" aria-hidden="true"></i><br/>
+					<i class="fas fa-folder-open" aria-hidden="true"></i>
+				</td>
+				<td id="buttons"></td>
+			</tr>
+		</tbody>
+	</table>
+	<!-- <div id="start"></div> -->
+	<div id="menywrapper" style="display: none;"><div id="meny"></div></div>
+</body>
+</html>
