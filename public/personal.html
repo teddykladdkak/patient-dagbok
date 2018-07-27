@@ -198,6 +198,8 @@
 		//<video id="preview" data-video="0" autoplay="autoplay" class="active" style="transform: scaleX(-1);" src="blob:http://localhost:3333/82ab1353-d340-4bde-9de5-e7cdabb12658"></video>
 	};
 	socket.on('succsess', function(data) {
+		var audio = new Audio('ljud/connect.mp3');
+			audio.play();
 		console.log('Nu kan du skicka info till detta id: "' + document.getElementById('key').value + '"');
 		document.getElementById('buttons').setAttribute('style', 'display: block;');
 		document.getElementById('connect').setAttribute('style', 'display: none;');

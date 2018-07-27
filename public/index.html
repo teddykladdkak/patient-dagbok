@@ -165,7 +165,9 @@
 		document.getElementById('key').value = data;
 	});
 	socket.on('succsess', function(data) {
-		console.log('Du kan nu ta mot information!')
+		console.log('Du kan nu ta mot information!');
+		var audio = new Audio('ljud/connect.mp3');
+			audio.play();
 		socket.emit('confirm', data);
 	});
 	socket.on('pasteinfo', function(data) {
