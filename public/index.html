@@ -168,6 +168,12 @@
 		console.log('Du kan nu ta mot information!');
 		var audio = new Audio('ljud/connect.mp3');
 			audio.play();
+		// enable vibration support
+		navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+		if (navigator.vibrate) {
+			// vibration API supported
+			navigator.vibrate(500);
+		};
 		socket.emit('confirm', data);
 	});
 	socket.on('pasteinfo', function(data) {

@@ -200,6 +200,12 @@
 	socket.on('succsess', function(data) {
 		var audio = new Audio('ljud/connect.mp3');
 			audio.play();
+		// enable vibration support
+		navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+		if (navigator.vibrate) {
+			// vibration API supported
+			navigator.vibrate(500);
+		};
 		console.log('Nu kan du skicka info till detta id: "' + document.getElementById('key').value + '"');
 		document.getElementById('buttons').setAttribute('style', 'display: block;');
 		document.getElementById('connect').setAttribute('style', 'display: none;');
