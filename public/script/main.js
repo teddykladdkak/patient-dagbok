@@ -315,6 +315,7 @@ function loadsave(){
 	loadSettingScale();
 	//scale('Vad är det för väder idag?', '1', '3', '5', 'vader');
 	loadSprak();
+	loadsettingtextsize();
 	showwrapper('patient');
 };
 function loadSprak(){
@@ -624,6 +625,21 @@ function bulidmenu(){
 			}
 		},{
 			"type": "scale"
+		},{
+			"type": "underhead",
+			"text": {
+				"sv": "Text storlek",
+				"eng": "Text size"
+			}
+		},{
+			"type": "select",
+			"id": "settingstextsize",
+			"placeholder": {
+				"sv": "Välj önskad text storlek",
+				"eng": "Select desired text size"
+			},
+			"options": ['0.5', '1', '1.5', '2', '2.5', '3'],
+			"change": "textsize(this);"
 		}]
 	}, {
 		"id": "vadardetta",
@@ -670,6 +686,33 @@ function bulidmenu(){
 			checkdiv.appendChild(checktext);
 		settingwrapp.appendChild(checkdiv);
 	};*/
+};
+function textsize(element){
+	if(element.value == ''){}else{
+		var styleelem = document.getElementById('textsizestyle');
+		var number = Number(element.value);
+		var newcode = document.createTextNode('#datum, p, h3 {font-size: ' + number + 'em} h1 {font-size: ' + (number + 1) + 'em} #menu p, h2 {font-size: ' + (number + 0.5) + 'em}');
+		if(!styleelem){
+			var head = document.getElementsByTagName('head')[0];
+				var style = document.createElement('style');
+					style.setAttribute('type', 'text/css');
+					style.setAttribute('id', 'textsizestyle');
+					style.appendChild(newcode);
+				head.appendChild(style);
+		}else{
+			removechilds(styleelem);
+			styleelem.appendChild(newcode);
+		};
+		localStorage.setItem('settingstextsize', element.value);
+	};
+};
+function loadsettingtextsize(){
+	var number = localStorage.getItem('settingstextsize');
+	if(!number){}else{
+		var settingselect = document.getElementById('settingstextsize')
+		settingselect.value = number;
+		textsize(settingselect);
+	};
 };
 function settingskrivut(){
 	localStorage.removeItem('skrivin');

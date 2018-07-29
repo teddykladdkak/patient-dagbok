@@ -175,7 +175,7 @@ input, select {
 #menu p {
 	margin: 5px 0px;
 	padding: 10px;
-	font-size: 30px;
+	font-size: 1.5em;
 	background-color: darkblue;
 }
 #menu p:nth-child(even) {
