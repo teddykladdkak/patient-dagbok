@@ -71,6 +71,9 @@ input, select {
 	background-color: white;
 	padding: 5px;
 }
+#bedomning {
+	padding-bottom: 20px;
+}
 #infowrapper, #bedomningwrapper, .information, #preview {
 	margin: 20px 10px;
 }
@@ -180,4 +183,13 @@ input, select {
 }
 #menu p:nth-child(even) {
 	background-color: blue;
+}
+#qrimg {
+	width: 100%;
+	max-width: 500px;
+	background-color: #FFF;
+}
+#key {
+	width: 60%;
+	margin: 0px auto;
 }

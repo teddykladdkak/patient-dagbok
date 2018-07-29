@@ -161,7 +161,7 @@
 	socket.on('message', function (data) {console.log(data);});
 	socket.on('key', function(data) {
 		console.log(data);
-		document.getElementById('qrimg').setAttribute('src', '/img/qr.png?' + data);
+		document.getElementById('qrimg').setAttribute('src', '/img/qr.svg?' + data);
 		document.getElementById('key').value = data;
 	});
 	socket.on('succsess', function(data) {

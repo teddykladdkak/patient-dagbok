@@ -57,8 +57,12 @@ function loadpage(filePath, extname, response, contentType){
 	var spliturl = filePath.split('?');
 	if('./img/qr.png' == spliturl[0]){
 		var img = qr.image(spliturl[1]);
-		response.writeHead(200, {'Content-Type': 'image/png'});
-		img.pipe(response); 
+			response.writeHead(200, {'Content-Type': 'image/png'});
+			img.pipe(response); 
+	}else if('./img/qr.svg' == spliturl[0]){
+		var img = qr.image(spliturl[1], { type: 'svg' });
+			response.writeHead(200, {'Content-Type': 'image/svg+xml'});
+			img.pipe(response); 
 	}else{
 		fs.readFile(config.public + '/' + filePath, function(error, content) {
 			if (error) {
