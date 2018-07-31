@@ -156,7 +156,12 @@
 	var socket = io.connect(geturl);
 	// Berättar för användare ifall koppling till server försvinner
 	socket.on('disconnect', function () {
-		
+		document.getElementById('qrimg').removeAttribute('src');
+		document.getElementById('key').value = '';
+		var qricon = document.getElementById('qricon');
+		if(qricon.getAttribute('data-active') == 'true'){
+			showqr(qricon);
+		};
 	});
 	socket.on('message', function (data) {console.log(data);});
 	socket.on('key', function(data) {
