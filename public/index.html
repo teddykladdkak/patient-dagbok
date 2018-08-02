@@ -46,7 +46,7 @@
 					<p>PatientDagboken</p>
 				</div>
 				<div class="wrappercell">
-					<i class="fas fa-qrcode" data-active="false" id="qricon" onclick="showqr(this)"></i>
+					<i class="fas fa-qrcode" data-active="false" id="qricon"></i>
 				</div>
 			</div>
 		</div>
@@ -155,17 +155,25 @@
 	//Lyssnar om server säger något
 	var socket = io.connect(geturl);
 	// Berättar för användare ifall koppling till server försvinner
-	socket.on('disconnect', function () {
-		document.getElementById('qrimg').removeAttribute('src');
-		document.getElementById('key').value = '';
+	function aterstall(){
 		var qricon = document.getElementById('qricon');
 		if(qricon.getAttribute('data-active') == 'true'){
 			showqr(qricon);
 		};
+	};
+	socket.on('disconnect', function () {
+		document.getElementById('qrimg').removeAttribute('src');
+		document.getElementById('key').value = '';
+		document.getElementById('qricon').removeAttribute('onclick');
+		aterstall();
+	});
+	socket.on('kopplingbruten', function () {
+		aterstall();
 	});
 	socket.on('message', function (data) {console.log(data);});
 	socket.on('key', function(data) {
 		console.log(data);
+		document.getElementById('qricon').setAttribute('onclick', 'showqr(this)');
 		document.getElementById('qrimg').setAttribute('src', '/img/qr.svg?' + data);
 		document.getElementById('key').value = data;
 	});

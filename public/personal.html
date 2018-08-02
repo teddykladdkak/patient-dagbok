@@ -213,6 +213,9 @@
 	socket.on('err', function(data) {
 		discon();
 	});
+	socket.on('kopplingbruten', function () {
+		discon();
+	});
 	function skrivin(){
 		var userid = document.getElementById('key').value;
 		var tosend = {"id": userid, "data": mall.pages};

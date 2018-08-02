@@ -101,6 +101,8 @@ io.sockets.on('connection', function (socket, username) {
 	});
 	socket.on('confirm', function (data) {
 		io.sockets.sockets[data].emit('succsess', data);
+		io.sockets.sockets[data].pair = socket.id;
+		socket.pair = data;
 	});
 	socket.on('sendinfo', function (data){
 		if(!io.sockets.sockets[data.id]){
@@ -115,6 +117,13 @@ io.sockets.on('connection', function (socket, username) {
 		}else{
 			console.log(data.data);
 			io.sockets.sockets[data.id].emit('skrivin', data.data);
+		};
+	});
+	socket.on('disconnect', function (){
+		var connected = io.sockets.sockets[socket.pair];
+		if(!connected || connected == ''){}else{
+			connected.pair = '';
+			connected.emit('kopplingbruten', '0');
 		};
 	});
 	console.log('ID för socket: ' + socket.id);
