@@ -165,7 +165,7 @@
 	socket.on('disconnect', function () {
 		document.getElementById('qrimg').removeAttribute('src');
 		document.getElementById('key').value = '';
-		document.getElementById('qricon').removeAttribute('onclick');
+		document.getElementById('qricon').setAttribute('onclick', 'error(\'error\', \'Du är offline.\')');
 		error('error', 'Du är offline.');
 		aterstall();
 	});
