@@ -32,6 +32,7 @@
 	<script type="application/javascript" src="mall.js"></script>
 </head>
 <body onload="load();">
+	<div id="message">Test text</div>
 	<div id="myModal" class="modal">
 		<span class="close" onclick="hidelarger();">&times;</span>
 		<div class="modal-content" id="img01"></div>
@@ -165,9 +166,12 @@
 		document.getElementById('qrimg').removeAttribute('src');
 		document.getElementById('key').value = '';
 		document.getElementById('qricon').removeAttribute('onclick');
+		error('error', 'Du är offline.');
 		aterstall();
 	});
-	socket.on('kopplingbruten', function () {
+	socket.on('kopplingbruten', function (info) {
+		console.log('Koppling bruten')
+		error(info.type, info.text);
 		aterstall();
 	});
 	socket.on('message', function (data) {console.log(data);});
@@ -187,7 +191,12 @@
 			// vibration API supported
 			navigator.vibrate(500);
 		};
+		error('info', 'Du är nu parkopplad med vårdpersonalen.');
 		socket.emit('confirm', data);
+		var qricon = document.getElementById('qricon');
+		if(qricon.getAttribute('data-active') == 'true'){
+			showqr(qricon);
+		};
 	});
 	socket.on('pasteinfo', function(data) {
 		console.log('Det borde komma info här!');
@@ -199,8 +208,10 @@
 		if(qricon.getAttribute('data-active') == 'true'){
 			showqr(qricon);
 		};
+		error('good', 'Du har nu fått information från vårdpersonal i din dagbok.');
 	});
 	socket.on('skrivin', function(data) {
+		error('good', 'Du är nu inskriven på avdelningen.');
 		localStorage.setItem('skrivin', JSON.stringify(data));
 		bulidmenu();
 		showwrapper('patient');

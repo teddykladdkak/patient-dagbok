@@ -123,8 +123,17 @@ io.sockets.on('connection', function (socket, username) {
 		var connected = io.sockets.sockets[socket.pair];
 		if(!connected || connected == ''){}else{
 			connected.pair = '';
-			connected.emit('kopplingbruten', '0');
+			connected.emit('kopplingbruten', {type: 'error', text: 'Av någon anlening har parkopplingen avbrutits.'});
 		};
+		socket.pair = '';
+	});
+	socket.on('kopplafran', function (){
+		var connected = io.sockets.sockets[socket.pair];
+		if(!connected || connected == ''){}else{
+			connected.pair = '';
+			connected.emit('kopplingbruten', {type: 'info', text: 'Vårdpersonalen har avbrutit kopplingen.'});
+		};
+		socket.pair = '';
 	});
 	console.log('ID för socket: ' + socket.id);
 	socket.emit('key', socket.id);

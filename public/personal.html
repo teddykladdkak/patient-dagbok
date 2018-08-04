@@ -171,7 +171,7 @@
 	var socket = io.connect(geturl);
 	// Berättar för användare ifall koppling till server försvinner
 	socket.on('disconnect', function () {
-		
+		discon();
 	});
 	socket.on('message', function (data) {console.log(data);});
 	function koppla(){
@@ -194,6 +194,7 @@
 			video.removeAttribute('class');
 			video.removeAttribute('src');
 			video.setAttribute('style', 'display: none;');
+		socket.emit('kopplafran', 'a');
 		//<video id="preview" style="display: none;"></video>
 		//<video id="preview" data-video="0" autoplay="autoplay" class="active" style="transform: scaleX(-1);" src="blob:http://localhost:3333/82ab1353-d340-4bde-9de5-e7cdabb12658"></video>
 	};

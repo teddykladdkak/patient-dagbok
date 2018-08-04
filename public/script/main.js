@@ -17,7 +17,14 @@ var modules = [{
 	"max": "10",
 	"onchange": "painscale"
 }];
-
+function error(type, text){
+	var message = document.getElementById('message');
+		removechilds(message);
+		var text = document.createTextNode(text);
+		message.appendChild(text);
+		message.setAttribute('class', type + ' show');
+		setTimeout(function(){message.removeAttribute('class');}, 3000);
+};
 function brake(element){element.appendChild(document.createElement('br'));};
 function pasteinfo(data){
 	var info = document.getElementById('editor').getElementsByClassName('ql-editor')[0];
