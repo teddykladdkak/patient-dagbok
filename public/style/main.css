@@ -224,6 +224,8 @@ input, select {
     margin: 0px;
     padding: 5px;
 
+    z-index: 999;
+
 	font-weight: bold;
 	text-align: center;
 
