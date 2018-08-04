@@ -217,7 +217,7 @@ input, select {
 	color: white;
 }*/
 #message {
-	position: absolute;
+	position: fixed;
     left: 0px;
     top: 0px;
     width:100%;
