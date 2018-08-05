@@ -29,21 +29,6 @@
 	<script type="application/javascript" src="mall.js"></script>
 	<script type="text/javascript" src="script/instascan.min.js"></script>
 	<script type="text/javascript">
-		function removechilds(parent){
-			if(parent.hasChildNodes()){
-				while (parent.hasChildNodes()) {
-					parent.removeChild(parent.firstChild);
-				};
-			};
-		};
-		function error(type, text){
-			var message = document.getElementById('message');
-				removechilds(message);
-				var text = document.createTextNode(text);
-				message.appendChild(text);
-				message.setAttribute('class', type + ' show');
-				setTimeout(function(){message.removeAttribute('class');}, 3000);
-		};
 		function makeid(namn){return namn.replace(/\s/g,'').replace( /\W/g , '').toLowerCase();};
 		function arraytotext(array){
 			var text = [];
@@ -129,21 +114,6 @@
 		function load(){
 			startreadmall();
 		};
-		function changecamera(){
-			discon();
-			if(!localStorage.getItem('cameranum')){
-
-			}else{
-				var values = localStorage.getItem('cameranum').split('#');
-				if(values[0] == values[1]){
-					var touse = 0;
-				}else{
-					var touse = parseInt(values[0]) + 1;
-				};
-				localStorage.setItem('cameranum', touse + '#' + values[1]);
-			};
-			startscan();
-		};
 	</script>
 	<style type="text/css">
 		#buttons {
@@ -152,9 +122,8 @@
 	</style>
 	<script type="text/javascript">
 		function startscan(){
-			document.getElementById('scanvideo').removeAttribute('style');
-			document.getElementById('changescan').removeAttribute('style');
-			let scanner = new Instascan.Scanner({ video: document.getElementById('scanvideo') });
+			document.getElementById('preview').removeAttribute('style');
+			let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
 				scanner.addListener('scan', function (content) {
 					console.log(content);
 					document.getElementById('key').value = content;
@@ -163,23 +132,17 @@
 				});
 			Instascan.Camera.getCameras().then(function (cameras) {
 				if (cameras.length > 0) {
-					if(!localStorage.getItem('cameranum')){
-						localStorage.setItem('cameranum', (cameras.length - 1) + '#' + (cameras.length - 1));
-					};
-					var camnum = localStorage.getItem('cameranum').split('#')[0];
-					scanner.start(cameras[parseInt(camnum)]);
+					scanner.start(cameras[cameras.length - 1]);
 				} else {
-					error('error', 'Ingen kamera hittad.');
+					console.error('No cameras found.');
 				}
 			}).catch(function (e) {
-				error('error', 'Appen har inte tillåtelse att använda kameran för att scanna QR-koden (' + e + ').');
 				console.error(e);
 			});
 		};
 	</script>
 </head>
 <body onload="load();">
-	<div id="message">Test text</div>
 	<div class="head wrappertable noselect">
 		<div class="wrapperrow">
 			<div class="wrappercell">
@@ -194,9 +157,8 @@
 		</div>
 	</div>
 	<div id="connect">
-		<span id="changescan" style="display: none;" onclick="changecamera();"><i class="fas fa-sync-alt"></i></span>
-		<video id="scanvideo" style="display: none;"></video>
 		<input type="text" id="key"><br/>
+		<video id="preview" style="display: none;"></video>
 		<input type="button" value="Koppla" onclick="koppla();">
 	</div>
 	<div id="buttons">
@@ -226,16 +188,15 @@
 		document.getElementById('key').value = '';
 		document.getElementById('connect').setAttribute('style', 'display: block;');
 		document.getElementById('buttons').setAttribute('style', 'display: none;');
-		var video = document.getElementById('scanvideo');
+		var video = document.getElementById('preview');
 			video.removeAttribute('data-video');
 			video.removeAttribute('autoplay');
 			video.removeAttribute('class');
 			video.removeAttribute('src');
 			video.setAttribute('style', 'display: none;');
-		document.getElementById('changescan').setAttribute('style', 'display: none;');
 		socket.emit('kopplafran', 'a');
-		//<video id="scanvideo" style="display: none;"></video>
-		//<video id="scanvideo" data-video="0" autoplay="autoplay" class="active" style="transform: scaleX(-1);" src="blob:http://localhost:3333/82ab1353-d340-4bde-9de5-e7cdabb12658"></video>
+		//<video id="preview" style="display: none;"></video>
+		//<video id="preview" data-video="0" autoplay="autoplay" class="active" style="transform: scaleX(-1);" src="blob:http://localhost:3333/82ab1353-d340-4bde-9de5-e7cdabb12658"></video>
 	};
 	socket.on('succsess', function(data) {
 		var audio = new Audio('ljud/connect.mp3');
