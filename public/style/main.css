@@ -191,7 +191,19 @@ input, select {
 }
 #key {
 	width: 60%;
-	margin: 0px auto;
+	margin: 50px auto 0px auto;
+}
+#connect {
+	position: relative;
+}
+#changescan {
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	background-color: white;
+	color: #000;
+	padding: 10px;
+	z-index: 98;
 }
 /*#message {
 	position: absolute;
