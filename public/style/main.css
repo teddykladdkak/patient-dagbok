@@ -196,32 +196,15 @@ input, select {
 	background-color: #FFF;
 }
 #key {
-	width: 60%;
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+	border: solid 0px #000;
+}
+#qrwrapper {
+	max-width: 500px!important;
 	margin: 0px auto;
 }
-/*#message {
-	position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-
-	font-weight: bold;
-	text-align: center;
-
-	overflow-y: hidden;
-	max-height: 500px;
-
-	transition-property: all;
-	transition-duration: .5s;
-	transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-}
-#message.closed {
-	max-height: 0;
-}
-#message.error {
-	background-color: red;
-	color: white;
-}*/
 #message {
 	position: fixed;
     left: 0px;
