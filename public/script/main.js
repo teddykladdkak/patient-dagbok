@@ -17,6 +17,124 @@ var modules = [{
 	"max": "10",
 	"onchange": "painscale"
 }];
+var standard = [{
+	"id": "installningar",
+	"extraonclick": "",
+	"menu": {
+		"sv": "Inställningar",
+		"eng": "Settings"
+	},
+	"content": [{
+		"type": "head",
+		"text": {
+			"sv": "Inställningar",
+			"eng": "Settings"
+		}
+	},{
+		"type": "underhead",
+		"text": {
+			"sv": "Informations sidor",
+			"eng": "Information pages"
+		}
+	},{
+		"type": "button",
+		"text": {
+			"sv": "Ta bort avdelningsinformation",
+			"eng": "Remove ward information"
+		},
+		"click": "settingskrivut();"
+	},{
+		"type": "underhead",
+		"text": {
+			"sv": "Språk",
+			"eng": "Language"
+		}
+	},{
+		"type": "select",
+		"id": "settingsprakforsta",
+		"placeholder": {
+			"sv": "Välj förstaspråk",
+			"eng": "Select first language"
+		},
+		"options": ['sv', 'eng'],
+		"change": "andrasprak('forsta', this);"
+	},{
+		"type": "select",
+		"id": "settingsprakandra",
+		"placeholder": {
+			"sv": "Välj andraspråk",
+			"eng": "Select second language"
+		},
+		"options": ['sv', 'eng'],
+		"change": "andrasprak('andra', this);"
+	},{
+		"type": "underhead",
+		"text": {
+			"sv": "Skala",
+			"eng": "Scale"
+		}
+	},{
+		"type": "scale"
+	},{
+		"type": "underhead",
+		"text": {
+			"sv": "Text storlek",
+			"eng": "Text size"
+		}
+	},{
+		"type": "select",
+		"id": "settingstextsize",
+		"placeholder": {
+			"sv": "Välj önskad text storlek",
+			"eng": "Select desired text size"
+		},
+		"options": ['0.5', '1', '1.5', '2', '2.5', '3'],
+		"change": "textsize(this);"
+	}]
+}, {
+	"id": "chart",
+	"extraonclick": "addchart();",
+	"menu": {
+		"sv": "Statistik",
+		"eng": "Stastistics"
+	},
+	"content": [{
+		"type": "head",
+		"text": {
+			"sv": "Statistik",
+			"eng": "Stastistics"
+		}
+	},{
+		"type": "wrapper",
+		"id": "chartwrapper"
+	}]
+}, {
+	"id": "vadardetta",
+	"extraonclick": "",
+	"menu": {
+		"sv": "Vad är PatientDagboken?",
+		"eng": "What is PatientDagboken (Patient diary)"
+	},
+	"content": [{
+		"type": "head",
+		"text": {
+			"sv": "Vad är PatientDagboken?",
+			"eng": "What is PatientDagboken (Patient diary)"
+		}
+	},{
+		"type": "text",
+		"text": {
+			"sv": "Detta är ett projekt som ämnar ge dig som patient möjlighet att skapa dagbok under din vårdtid. Skillnaden mellan denna och alla andra dagböcker som finns på marknaden är att du inte är ensam att skriva, vårdpersonalen hjälper till att skriva i dagboken genom att klistra in information.",
+			"eng": "This is a project that aims to give you as a patient the opportunity to create a diary during your care period. The difference between this and all other diaries on the market is that you are not alone in writing, the healthcare staff helps to write in the diary by pasting information."
+		}
+	},{
+		"type": "text",
+		"text": {
+			"sv": "All informaiton som skrivs här är din och kan inte läsas av någon annan, det är upp till dig ifall du vill delge din information till vårdpersonalen.",
+			"eng": "All information written here is yours and can not be read by anyone else, it is up to you if you want to share your information with healthcare professionals."
+		}
+	}]
+}];
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 };
@@ -646,124 +764,6 @@ function bulidmenu(){
 			writeinformation(local[i].id, local[i].content);
 		};
 	};
-	var standard = [{
-		"id": "installningar",
-		"extraonclick": "",
-		"menu": {
-			"sv": "Inställningar",
-			"eng": "Settings"
-		},
-		"content": [{
-			"type": "head",
-			"text": {
-				"sv": "Inställningar",
-				"eng": "Settings"
-			}
-		},{
-			"type": "underhead",
-			"text": {
-				"sv": "Informations sidor",
-				"eng": "Information pages"
-			}
-		},{
-			"type": "button",
-			"text": {
-				"sv": "Ta bort avdelningsinformation",
-				"eng": "Remove ward information"
-			},
-			"click": "settingskrivut();"
-		},{
-			"type": "underhead",
-			"text": {
-				"sv": "Språk",
-				"eng": "Language"
-			}
-		},{
-			"type": "select",
-			"id": "settingsprakforsta",
-			"placeholder": {
-				"sv": "Välj förstaspråk",
-				"eng": "Select first language"
-			},
-			"options": ['sv', 'eng'],
-			"change": "andrasprak('forsta', this);"
-		},{
-			"type": "select",
-			"id": "settingsprakandra",
-			"placeholder": {
-				"sv": "Välj andraspråk",
-				"eng": "Select second language"
-			},
-			"options": ['sv', 'eng'],
-			"change": "andrasprak('andra', this);"
-		},{
-			"type": "underhead",
-			"text": {
-				"sv": "Skala",
-				"eng": "Scale"
-			}
-		},{
-			"type": "scale"
-		},{
-			"type": "underhead",
-			"text": {
-				"sv": "Text storlek",
-				"eng": "Text size"
-			}
-		},{
-			"type": "select",
-			"id": "settingstextsize",
-			"placeholder": {
-				"sv": "Välj önskad text storlek",
-				"eng": "Select desired text size"
-			},
-			"options": ['0.5', '1', '1.5', '2', '2.5', '3'],
-			"change": "textsize(this);"
-		}]
-	}, {
-		"id": "chart",
-		"extraonclick": "addchart();",
-		"menu": {
-			"sv": "Statistik",
-			"eng": "Stastistics"
-		},
-		"content": [{
-			"type": "head",
-			"text": {
-				"sv": "Statistik",
-				"eng": "Stastistics"
-			}
-		},{
-			"type": "wrapper",
-			"id": "chartwrapper"
-		}]
-	}, {
-		"id": "vadardetta",
-		"extraonclick": "",
-		"menu": {
-			"sv": "Vad är PatientDagboken?",
-			"eng": "What is PatientDagboken (Patient diary)"
-		},
-		"content": [{
-			"type": "head",
-			"text": {
-				"sv": "Vad är PatientDagboken?",
-				"eng": "What is PatientDagboken (Patient diary)"
-			}
-		},{
-			"type": "text",
-			"text": {
-				"sv": "Detta är ett projekt som ämnar ge dig som patient möjlighet att skapa dagbok under din vårdtid. Skillnaden mellan denna och alla andra dagböcker som finns på marknaden är att du inte är ensam att skriva, vårdpersonalen hjälper till att skriva i dagboken genom att klistra in information.",
-				"eng": "This is a project that aims to give you as a patient the opportunity to create a diary during your care period. The difference between this and all other diaries on the market is that you are not alone in writing, the healthcare staff helps to write in the diary by pasting information."
-			}
-		},{
-			"type": "text",
-			"text": {
-				"sv": "All informaiton som skrivs här är din och kan inte läsas av någon annan, det är upp till dig ifall du vill delge din information till vårdpersonalen.",
-				"eng": "All information written here is yours and can not be read by anyone else, it is up to you if you want to share your information with healthcare professionals."
-			}
-		}]
-	}];
 	for (var i = 0; i < standard.length; i++){
 		var p = document.createElement('p');
 			p.setAttribute('onclick', standard[i].extraonclick + 'showwrapper(\'' + standard[i].id + '\');')
