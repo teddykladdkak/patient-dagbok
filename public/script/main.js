@@ -340,7 +340,7 @@ function larger(element){
 			var wrapperpew = document.getElementById('preview');
 				removechilds(wrapperpew);
 				/*<embed src="http://domain.com/your_pdf.pdf" width="600" height="500" alt="pdf" pluginspage="http://www.adobe.com/products/acrobat/readstep2.html">*/
-				if(type == 'pdf'){
+				/*if(type == 'pdf'){
 					var embed = document.createElement('embed');
 						embed.setAttribute('width', '100%');
 						embed.setAttribute('height', '100%');
@@ -348,7 +348,7 @@ function larger(element){
 						embed.setAttribute('alt', 'pdf');
 						embed.setAttribute('pluginspage', 'http://www.adobe.com/products/acrobat/readstep2.html');
 					wrapperpew.appendChild(embed);
-				}else{
+				}else{*/
 					var iframe = document.createElement('iframe');
 						iframe.setAttribute('width', '100%');
 						iframe.setAttribute('height', '100%');
@@ -356,7 +356,7 @@ function larger(element){
 						iframe.setAttribute('frameborder', '0');
 						iframe.setAttribute('allowfullscreen', 'allowfullscreen');
 					wrapperpew.appendChild(iframe);
-				};
+				/*};*/
 		}else{
 			console.log(type + ' som typ av info stödjs inte att visas i större förhandsgranskning!');
 		};
