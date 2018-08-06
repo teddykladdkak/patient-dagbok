@@ -47,7 +47,7 @@ input, select {
 	margin-bottom: 5px;
 }
 /*Påverkar patientvyn*/
-#datumhead, #bedomning, #info, .innerinformation, #preview iframe {
+#datumhead, #bedomning, #info, .innerinformation, #preview iframe, #chart {
 	border-radius: 10px;
 }
 #preview iframe {
@@ -67,20 +67,20 @@ input, select {
 	margin: 10px 10px 0px 10px;
 	padding: 10px;
 }
-#info, #bedomning, .innerinformation {
+#info, #bedomning, .innerinformation, #chart {
 	background-color: white;
 	padding: 5px;
 }
 #bedomning {
 	padding-bottom: 20px;
 }
-#infowrapper, #bedomningwrapper, .information, #preview {
+#infowrapper, #bedomningwrapper, .information, #preview, #chart {
 	margin: 20px 10px;
 }
 #preview {
 	height: 100%;
 }
-.information h1, .information p {
+.information h1, .information p, #chart h1, #chart h2 {
 	color: #000;
 	text-align: left;
 }

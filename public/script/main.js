@@ -17,6 +17,73 @@ var modules = [{
 	"max": "10",
 	"onchange": "painscale"
 }];
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+};
+function localStorageSearch(){
+	var allid = [];
+	for (var i = 0; i < localStorage.length; i++) {
+		allid.push(localStorage.key(i));
+	};
+	return allid;
+};
+function addchart(){
+	var allid = localStorageSearch();
+	var data = [];
+	var dates = {};
+	for (var i = 0; i < modules.length; i++) {
+		var datainside = [];
+		for (var a = 0; a < allid.length; a++) {
+			if(modules[i].onchange == allid[a].split('-')[0]){
+				datainside.push(allid[a]);
+				var rensa = allid[a].split(modules[i].onchange + '-')[1]
+				if(!dates[rensa]){
+					dates[rensa] = modules[i].onchange;
+				}else{
+					dates[rensa] = modules[i].onchange + ', ' + dates[rensa];
+				};
+			};
+		};
+		var scale = {"id": modules[i].onchange, "dataid": datainside.sort()};
+		data.push(scale);
+	};
+	var alladatum = Object.keys(dates);
+	var seriesdata = [];
+	var seriesdatatwo = [];
+	for (var a = 0; a < modules.length; a++) {
+		var moduledata = [];
+		var moduledatatwo = {"id": modules[a].onchange, "data": []};
+		for (var i = 0; i < alladatum.length; i++) {
+			var idtag = modules[a].onchange + '-' + alladatum[i];
+			if(!localStorage.getItem(idtag)){
+				moduledata.push(null);
+				moduledatatwo.data.push(null)
+			}else{
+				var encodeinfo = sjcl.decrypt(sessionStorage.getItem('pw'), localStorage.getItem(idtag));
+				moduledata.push(encodeinfo);
+				moduledatatwo.data.push(encodeinfo);
+			};
+		};
+		seriesdatatwo.push(moduledatatwo);
+	};
+	console.log(seriesdatatwo);
+	var chartwrapper = document.getElementById('chartwrapper');
+		removechilds(chartwrapper);
+	for (var i = 0; i < seriesdatatwo.length; i++) {
+		var underhead = document.createElement('h2');
+			var underheadtext = document.createTextNode(capitalizeFirstLetter(seriesdatatwo[i].id));
+			underhead.appendChild(underheadtext);
+		chartwrapper.appendChild(underhead);
+		var chartdiv = document.createElement('div');
+			chartdiv.setAttribute('class', 'ct-chart ct-golden-section');
+			chartdiv.setAttribute('id', 'chart' + seriesdatatwo[i].id);
+		chartwrapper.appendChild(chartdiv);
+		new Chartist.Line('#chart' + seriesdatatwo[i].id, {
+			labels: alladatum,
+			series: [seriesdatatwo[i].data]
+		});
+	};
+};
 function error(type, text){
 	var message = document.getElementById('message');
 		removechilds(message);
@@ -532,6 +599,10 @@ function writeinformation(id, data){
 							checkdiv.appendChild(checktext);
 						wrapper.appendChild(checkdiv);
 					};
+				}else if(data[i].type == 'wrapper'){
+					var span = document.createElement('span');
+						span.setAttribute('id', data[i].id);
+					wrapper.appendChild(span);
 				};
 			};
 			outwrapper.appendChild(wrapper);
@@ -577,6 +648,7 @@ function bulidmenu(){
 	};
 	var standard = [{
 		"id": "installningar",
+		"extraonclick": "",
 		"menu": {
 			"sv": "Inställningar",
 			"eng": "Settings"
@@ -649,7 +721,25 @@ function bulidmenu(){
 			"change": "textsize(this);"
 		}]
 	}, {
+		"id": "chart",
+		"extraonclick": "addchart();",
+		"menu": {
+			"sv": "Statistik",
+			"eng": "Stastistics"
+		},
+		"content": [{
+			"type": "head",
+			"text": {
+				"sv": "Statistik",
+				"eng": "Stastistics"
+			}
+		},{
+			"type": "wrapper",
+			"id": "chartwrapper"
+		}]
+	}, {
 		"id": "vadardetta",
+		"extraonclick": "",
 		"menu": {
 			"sv": "Vad är PatientDagboken?",
 			"eng": "What is PatientDagboken (Patient diary)"
@@ -676,23 +766,12 @@ function bulidmenu(){
 	}];
 	for (var i = 0; i < standard.length; i++){
 		var p = document.createElement('p');
-			p.setAttribute('onclick', 'showwrapper(\'' + standard[i].id + '\');')
+			p.setAttribute('onclick', standard[i].extraonclick + 'showwrapper(\'' + standard[i].id + '\');')
 			var button = document.createTextNode(getLanguage(standard[i].menu))
 			p.appendChild(button);
 		wrapper.appendChild(p);
 		writeinformation(standard[i].id, standard[i].content);
 	};
-	/*var settingwrapp = document.getElementById('installningar');
-	for (var i = 0; i < scaledata.length; i++){
-		var checkdiv = document.createElement('div');
-			var checkbox = document.createElement('i');
-				checkbox.setAttribute('id', 'settingscale' + scaledata[i].onchange);
-				checkbox.setAttribute('class', 'fas fa-toggle-off settingscale');
-			checkdiv.appendChild(checkbox);
-			var checktext = document.createTextNode(getLanguage(scaledata[i].text));
-			checkdiv.appendChild(checktext);
-		settingwrapp.appendChild(checkdiv);
-	};*/
 };
 function textsize(element){
 	if(element.value == ''){}else{
