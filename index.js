@@ -2,6 +2,7 @@ var http = require('http');
 var fs = require('fs');
 var path = require('path');
 const makeDir = require('make-dir');
+var qr = require('qr-image'); // Skapar QR-bild
 
 //Datum funktion.
 function addzero(number){if(number <= 9){return "0" + number;}else{return number;};};
@@ -13,7 +14,7 @@ function getDate(dateannan, timeannan, milisecsave){
 
 var config = {
 	"public": __dirname + '/public',
-	"port": 7777
+	"port": 3333
 };
 
 
@@ -51,50 +52,72 @@ var server = http.createServer(function (request, response) {
 });
 
 function loadpage(filePath, extname, response, contentType){
-	fs.readFile(config.public + '/' + filePath, function(error, content) {
-		if (error) {
-			if(error.code == 'ENOENT'){
-				fs.readFile('./404.html', function(error, content) {
-					response.writeHead(200, { 'Content-Type': contentType });
-					response.end(content, 'utf-8');
-				});
+	//Säger till server att läsa och skicka fil till klient (Möjlighet att lägga till felmeddelanden)
+	//QR kod generator för projektsidan
+	var spliturl = filePath.split('?');
+	if('./img/qr.png' == spliturl[0]){
+		var img = qr.image(spliturl[1]);
+			response.writeHead(200, {'Content-Type': 'image/png'});
+			img.pipe(response); 
+	}else if('./img/qr.svg' == spliturl[0]){
+		var img = qr.image(spliturl[1], { type: 'svg' });
+			response.writeHead(200, {'Content-Type': 'image/svg+xml'});
+			img.pipe(response); 
+	}else{
+		fs.readFile(config.public + '/' + filePath, function(error, content) {
+			if (error) {
+				if(error.code == 'ENOENT'){
+					fs.readFile('./404.html', function(error, content) {
+						response.writeHead(200, { 'Content-Type': contentType });
+						response.end(content, 'utf-8');
+					});
+				}
+				else {
+					response.writeHead(500);
+					response.end('Sorry, check with the site admin for error: '+error.code+' ..\n');
+					response.end(); 
+				}
 			}
 			else {
-				response.writeHead(500);
-				response.end('Sorry, check with the site admin for error: '+error.code+' ..\n');
-				response.end(); 
+				response.writeHead(200, { 'Content-Type': contentType });
+				response.end(content, 'utf-8');
 			}
-		}
-		else {
-			response.writeHead(200, { 'Content-Type': contentType });
-			response.end(content, 'utf-8');
-		}
-	});
+		});
+	};
 };
-var dataraids = [];
+
 // Loading socket.io
 var io = require('socket.io').listen(server);
 io.sockets.on('connection', function (socket, username) {
-	// socket.emit('err', 'Användare kunde inte hittas.');
-	socket.on('login', function (data){
-		var datajson = JSON.parse(data);
-		socket.username = datajson.username;
-		socket.team = datajson.team;
-		console.log('Namn: ' + datajson.username + ', Team: ' + datajson.team);
-		var dataraidsfirst = [];
-		for (var i = 0; i < dataraids.length; i++){
-			if(i == 10){
-				i = 9999999999;
-			};
-			dataraidsfirst.push(dataraids[i]);
-		};
-		socket.emit('sendinfo', {"userinfo": datajson, "dataraidsfirst": dataraidsfirst});
+	socket.on('patient', function (data) {
+		
 	});
-	socket.on('postraid', function (data){
-		data.username = socket.username;
-		data.team = socket.team;
-		console.log(data);
-		dataraids.push(data);
+	socket.on('sendconnect', function (data) {
+		if(!io.sockets.sockets[data] || data == ''){
+			socket.emit('err', 'Användare kunde inte hittas.');
+		}else{
+			io.sockets.sockets[data].emit('succsess', socket.id);
+		};
+	});
+	socket.on('confirm', function (data) {
+		io.sockets.sockets[data].emit('succsess', data);
+		io.sockets.sockets[data].pair = socket.id;
+		socket.pair = data;
+	});
+	socket.on('sendinfo', function (data){
+		if(!io.sockets.sockets[data.id]){
+			socket.emit('err', 'Användare kunde inte hittas.');
+		}else{
+			io.sockets.sockets[data.id].emit('pasteinfo', data.data);
+		};
+	});
+	socket.on('skrivin', function (data){
+		if(!io.sockets.sockets[data.id]){
+			socket.emit('err', 'Användare kunde inte hittas.');
+		}else{
+			console.log(data.data);
+			io.sockets.sockets[data.id].emit('skrivin', data.data);
+		};
 	});
 	socket.on('disconnect', function (){
 		var connected = io.sockets.sockets[socket.pair];
@@ -104,6 +127,16 @@ io.sockets.on('connection', function (socket, username) {
 		};
 		socket.pair = '';
 	});
+	socket.on('kopplafran', function (){
+		var connected = io.sockets.sockets[socket.pair];
+		if(!connected || connected == ''){}else{
+			connected.pair = '';
+			connected.emit('kopplingbruten', {type: 'info', text: 'Vårdpersonalen har avbrutit kopplingen.'});
+		};
+		socket.pair = '';
+	});
+	console.log('ID för socket: ' + socket.id);
+	socket.emit('key', socket.id);
 });
 	
 	
