@@ -93,12 +93,8 @@ io.sockets.on('connection', function (socket, username) {
 	socket.on('postraid', function (data){
 		data.username = socket.username;
 		data.team = socket.team;
-		data.kommer = 1;
-		data.kommentar = [];
 		console.log(data);
 		dataraids.push(data);
-		socket.emit('nyraid', data);
-		socket.broadcast.emit('nyraid', data);
 	});
 	socket.on('disconnect', function (){
 		var connected = io.sockets.sockets[socket.pair];

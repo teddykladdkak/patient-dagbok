@@ -56,7 +56,6 @@
 		}
 		.raidimage {
 			max-width: 300px;
-			width: 100%;
 		}
 		.postbody {
 			max-width: 300px;
@@ -68,15 +67,6 @@
 		.postbody span, .postbody p {
 			margin: 5px;
 			padding: 5px;
-		}
-		.tablewidth, .tablewidth tr {
-			width: 100%;
-		}
-		.right {
-			text-align: right;
-		}
-		.center {
-			text-align: center;
 		}
 	</style>
 </head>
@@ -105,19 +95,7 @@
 	</div>
 	<div id="wrapper" style="display: none;">
 		<div id="meny">
-			<table class="tablewidth">
-				<tr>
-					<td>
-						<input type="button" value="Byt användare" onclick="changeuser();">
-					</td>
-					<td class="center">
-						<span id="anvandarnamn"></span>
-					</td>
-					<td class="right">
-						<input type="button" value="Lägg till raid" onclick="addraid(this);" id="buttonlaggtillraid">
-					</td>
-				</tr>
-			</table>
+			<input type="button" value="Byt användare" onclick="changeuser();"><span id="anvandarnamn"></span><input type="button" value="Lägg till raid" onclick="addraid(this);">
 		</div>
 		<div id="addraid" style="display: none;">
 			<p>Skärmdump</p>
@@ -166,7 +144,6 @@
 	};
 	function postraid(){
 		socket.emit('postraid', {raidimage: document.getElementById('raidimagetext').value, raidtid: document.getElementById('raidtid').value, raidkommentar: document.getElementById('raidkommentar').value});
-		hideaddreaid(document.getElementById('buttonlaggtillraid'));
 	};
 	function changeuser(){
 		localStorage.removeItem('userdata');
@@ -212,71 +189,28 @@
 		document.getElementById('meny').setAttribute('class', data.userinfo.team);
 		console.log(data.dataraidsfirst);
 		if(!data.dataraidsfirst){}else{
+			var wrapper = document.getElementById('posts');
 			for (var i = data.dataraidsfirst.length - 1; i >= 0; i--) {
 				console.log(data.dataraidsfirst[i]);
-				addpost(data.dataraidsfirst[i].username, data.dataraidsfirst[i].team, data.dataraidsfirst[i].raidtid, data.dataraidsfirst[i].raidkommentar, data.dataraidsfirst[i].raidimage, data.dataraidsfirst[i].kommer, data.dataraidsfirst[i].kommentarer, 'false');
+				var body = document.createElement('span');
+					body.setAttribute('class', 'postbody');
+					var user = document.createElement('span');
+						user.setAttribute('class', data.dataraidsfirst[i].team);
+						var username = document.createTextNode(data.dataraidsfirst[i].username);
+						user.appendChild(username);
+					body.appendChild(user);
+					var kommentar = document.createElement('p');
+						var kommentartext = document.createTextNode(data.dataraidsfirst[i].raidtid + ' ' + data.dataraidsfirst[i].raidkommentar)
+						kommentar.appendChild(kommentartext);
+					body.appendChild(kommentar);
+					var img = document.createElement('img');
+						img.setAttribute('src', data.dataraidsfirst[i].raidimage);
+						img.setAttribute('class', 'raidimage');
+					body.appendChild(img);
+				wrapper.appendChild(body);
 			};
 		};
 	});
-	socket.on('nyraid', function (data) {
-		addpost(data.username, data.team, data.raidtid, data.raidkommentar, data.raidimage, data.kommer, data.kommentarer, 'true');
-	});
-	function addpost(username, team, raidtid, raidkommentar, raidimage, kommernummer, kommentarer, firstorlast){
-		var wrapper = document.getElementById('posts');
-			var body = document.createElement('span');
-				body.setAttribute('class', 'postbody');
-				var user = document.createElement('table');
-					user.setAttribute('class', team + ' tablewidth');
-					var usertr = document.createElement('tr');
-						var usertd = document.createElement('td');
-							var username = document.createTextNode(username);
-							usertd.appendChild(username);
-						usertr.appendChild(usertd);
-						var taborttd = document.createElement('td');
-							taborttd.setAttribute('class', 'right');
-							var tabort = document.createElement('input');
-								tabort.setAttribute('type', 'button');
-								tabort.setAttribute('value', 'X');
-							taborttd.appendChild(tabort);
-						usertr.appendChild(taborttd);
-					user.appendChild(usertr);
-				body.appendChild(user);
-				var kommentar = document.createElement('p');
-					var kommentartext = document.createTextNode(raidtid + ' ' + raidkommentar)
-					kommentar.appendChild(kommentartext);
-				body.appendChild(kommentar);
-				var img = document.createElement('img');
-					img.setAttribute('src', raidimage);
-					img.setAttribute('class', 'raidimage');
-				body.appendChild(img);
-				var tableextra = document.createElement('table');
-					tableextra.setAttribute('class', 'tablewidth');
-					var tabletr = document.createElement('tr');
-						var kommertd = document.createElement('td');
-							var kommer = document.createElement('input');
-								kommer.setAttribute('type', 'button');
-								kommer.setAttribute('value', 'Kommer! (' + kommernummer + ')');
-							kommertd.appendChild(kommer);
-						tabletr.appendChild(kommertd);
-						var kommentartd = document.createElement('td');
-							kommentartd.setAttribute('class', 'right');
-							var kommentar = document.createElement('input');
-								kommentar.setAttribute('type', 'button');
-								if(!kommentarer){
-									kommentar.setAttribute('value', 'Kommentar (0)');
-								}else{
-									kommentar.setAttribute('value', 'Kommentar (' + kommentarer.length + ')');
-								};
-							kommentartd.appendChild(kommentar);
-						tabletr.appendChild(kommentartd);
-					tableextra.appendChild(tabletr);
-				body.appendChild(tableextra);
-		if(firstorlast == 'true'){
-			wrapper.insertBefore(body, wrapper.childNodes[0]); 
-		}else{
-			wrapper.appendChild(body);
-		};
-	};
 	socket.on('disconnect', function () {
 		location.reload();
 	});
