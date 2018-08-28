@@ -10,213 +10,209 @@
 	<meta content="minimum-scale=1.0, width=device-width, maximum-scale=0.6667, user-scalable=no" name="viewport" />
 	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
-	<meta property="og:title" content="Patient Dagbok (PatDB)" />
+	<!-- <meta property="og:title" content="Patient Dagbok (PatDB)" />
 	<meta property="og:url" content="https://www.patdagbok.tk" />
 	<meta property="og:type" content="website" />
 	<meta property="og:description" content="Applikation som hjälper dig som patient att föra dagbok under din sjukdomsperiod, verkar även som en informationsbrygga mellan dig och vårdpersonalen."/>
-	<meta property="og:image" content="ico/patient/icon.jpg" />
+	<meta property="og:image" content="ico/icon.jpg" /> -->
 
-	<link rel="shortcut icon" href="ico/patient/icon.ico" />
-	<link rel="icon" type="image/vnd.microsoft.icon" href="ico/patient/icon.ico" />
-	<link rel="icon" type="image/png" href="ico/patient/icon196x196.png" />
-	<link rel="apple-touch-icon-precomposed" href="ico/patient/icon180x180.png"/>
-	<link rel="apple-touch-icon-precomposed" sizes="76x76" href="ico/patient/icon76x76.png">
-	<link rel="apple-touch-icon-precomposed" sizes="120x120" href="ico/patient/icon120x120.png">
-	<link rel="apple-touch-icon-precomposed" sizes="152x152" href="ico/patient/icon152x152.png">
-
-	<link rel="stylesheet" href="style/font-awesome/css/fontawesome-all.css">
-	<link rel="stylesheet" href="chartist/chartist.min.css">
-	<link rel="stylesheet" href="style/main.css">
-	<link rel="stylesheet" href="style/modal.css">
-	<link href="style/quill.snow.css" rel="stylesheet">
-	<script type="application/javascript" src="chartist/chartist.min.js"></script>
-	<script type="application/javascript" src="script/encrypt.js"></script>
-	<script type="application/javascript" src="mall.js"></script>
+	<link rel="shortcut icon" href="ico/icon.ico" />
+	<link rel="icon" type="image/vnd.microsoft.icon" href="ico/icon.ico" />
+	<link rel="icon" type="image/png" href="ico/icon196x196.png" />
+	<link rel="apple-touch-icon-precomposed" href="ico/icon180x180.png"/>
+	<link rel="apple-touch-icon-precomposed" sizes="76x76" href="ico/icon76x76.png">
+	<link rel="apple-touch-icon-precomposed" sizes="120x120" href="ico/icon120x120.png">
+	<link rel="apple-touch-icon-precomposed" sizes="152x152" href="ico/icon152x152.png">
+	<style type="text/css">
+		#registrera table, #teamwrapper {
+			width: 100%;
+			max-width: 400px;
+		}
+		#teamwrapper td {
+			width: 25%;
+		}
+		#teamwrapper .chosenteam {
+			border: solid 2px black;
+		}
+		.unknown {
+			background-color: black;
+			color: white;
+		}
+		.instinct {
+			background-color: yellow;
+			color: black;
+		}
+		.mystic {
+			background-color: blue;
+			color: white;
+		}
+		.valor {
+			background-color: red;
+			color: black;
+		}
+		#raidimagepreview{
+			min-width: 200px;
+			max-width: 200px;
+		}
+		.raidimage {
+			max-width: 300px;
+		}
+		.postbody {
+			max-width: 300px;
+			margin: 20px auto;
+			padding: 5px;
+			display: block;
+			border: solid 1px black;
+		}
+		.postbody span, .postbody p {
+			margin: 5px;
+			padding: 5px;
+		}
+	</style>
 </head>
 <body onload="load();">
-	<div id="message">Test text</div>
-	<div id="myModal" class="modal">
-		<span class="close" onclick="hidelarger();">&times;</span>
-		<div class="modal-content" id="img01"></div>
-		<div id="caption"></div>
+	<div id="registrera" style="display: none;">
+		<p>Användarnamn/Username<br/>(Vanligt namn, namn i Pokémon Go, lämna blank för "Anonym")</p>
+		<input type="text" id="username">
+		<p>Lag/Team</p>
+		<table>
+			<tr id="teamwrapper">
+				<td class="chosenteam" onclick="chooseteam(this)" data-team="unknown">
+					<?xml version="1.0" ?><!DOCTYPE svg  PUBLIC '-//W3C//DTD SVG 1.1//EN'  'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'><svg style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" version="1.1" viewBox="0 0 223 223" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><style type="text/css"><![CDATA[.fil1 {fill:#FEFEFE}.fil3 {fill:#DCDDDD}.fil0 {fill:#C9CACA}.fil2 {fill:#474443}.fil5 {fill:#332C2B}.fil6 {fill:#E62129;fill-rule:nonzero}.fil4 {fill:#FEFEFE;fill-opacity:0.501961}]]></style></defs><g id="Layer_x0020_1"><circle class="fil0" cx="112" cy="112" r="112"/><path class="fil1" d="M217 112c0,58 -47,105 -105,105 -59,0 -106,-47 -106,-105l211 0z"/><path class="fil2" d="M112 6c58,0 105,47 105,106l-211 0c0,-59 47,-106 106,-106z"/><path class="fil3" d="M37 179c22,27 118,29 174,-49 -29,111 -150,88 -174,49z"/><path class="fil4" d="M18 81c0,0 2,-29 36,-51 34,-21 32,-3 24,4 -5,5 -45,5 -60,47z"/><path class="fil5" d="M217 103c0,3 0,6 0,9 0,2 0,4 0,6l-211 0c0,-2 0,-4 0,-6 0,-3 0,-6 0,-9l211 0z"/><circle class="fil5" cx="112" cy="112" r="35"/><circle class="fil1" cx="112" cy="112" r="23"/><path class="fil6" d="M91 75l0 -46 23 0c5,0 10,0 12,1 3,1 5,2 6,4 2,3 3,5 3,8 0,3 -1,6 -4,8 -2,2 -6,4 -10,4 2,2 4,3 5,4 2,2 4,4 7,8l6 9 -13 0 -8 -10c-2,-4 -4,-6 -5,-7 -1,-1 -2,-2 -4,-2 -1,0 -3,0 -5,0l-2 0 0 19 -11 0zm11 -27l8 0c5,0 8,0 9,0 2,-1 3,-1 3,-2 1,-1 2,-2 2,-4 0,-1 -1,-3 -2,-4 -1,0 -2,-1 -4,-1 -1,0 -3,0 -8,0l-8 0 0 11z"/></g></svg>
+				</td>
+				<td onclick="chooseteam(this)"  data-team="instinct">
+					<?xml version="1.0" ?><svg enable-background="new 0 0 512 512" id="Layer_1" version="1.1" viewBox="0 0 512 512" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><polygon fill="#FED943" points="256,263 243.6,254.4 202,302.1 242.2,289.1 256,336.8 269.8,289.1 310,302.1 268.4,254.4 "/><linearGradient gradientUnits="userSpaceOnUse" id="SVGID_1_" x1="256" x2="256" y1="325.9744" y2="258.3718"><stop offset="0" style="stop-color:#FFFFFF;stop-opacity:0"/><stop offset="0.8543" style="stop-color:#FFFFFF;stop-opacity:0.8543"/><stop offset="1" style="stop-color:#FFFFFF"/></linearGradient><polygon fill="url(#SVGID_1_)" points="244.2,285.3 211.4,295.9 244.1,258.4 256,266.6 267.9,258.4 300.6,295.9 267.8,285.3   256,326 "/><g><polygon fill="#FED943" points="473,104.4 290.6,175.1 298.3,189.4 271.6,189.7 257.2,252.8 402.9,178 365.1,177.8  "/><linearGradient gradientUnits="userSpaceOnUse" id="SVGID_2_" x1="355.5488" x2="355.5488" y1="247.1824" y2="116.6785"><stop offset="0" style="stop-color:#FFFFFF;stop-opacity:0"/><stop offset="0.8543" style="stop-color:#FFFFFF;stop-opacity:0.8543"/><stop offset="1" style="stop-color:#FFFFFF"/></linearGradient><polygon fill="url(#SVGID_2_)" points="274,192.7 303.3,192.3 294.9,176.7 449.6,116.7 355.4,180.7 390.7,181 261.5,247.2  "/><polygon fill="#FED943" points="254.8,252.8 240.4,189.8 213.4,189.7 221.3,175.1 39,104.4 146.9,177.8 109.1,178  "/><linearGradient gradientUnits="userSpaceOnUse" id="SVGID_3_" x1="156.4512" x2="156.4512" y1="247.1824" y2="116.6775"><stop offset="0" style="stop-color:#FFFFFF;stop-opacity:0"/><stop offset="0.8543" style="stop-color:#FFFFFF;stop-opacity:0.8543"/><stop offset="1" style="stop-color:#FFFFFF"/></linearGradient><polygon fill="url(#SVGID_3_)" points="121.3,181 156.6,180.7 62.4,116.7 217.1,176.7 208.4,192.7 238.1,192.7 250.5,247.2  "/></g><g><polygon fill="#FED943" points="362.2,211.9 256,410.2 149.8,211.9 124.2,198.7 256,444.9 387.8,198.7  "/><linearGradient gradientUnits="userSpaceOnUse" id="SVGID_4_" x1="255.9995" x2="255.9995" y1="438.5242" y2="205.7898"><stop offset="0" style="stop-color:#FFFFFF;stop-opacity:0"/><stop offset="0.8543" style="stop-color:#FFFFFF;stop-opacity:0.8543"/><stop offset="1" style="stop-color:#FFFFFF"/></linearGradient><polygon fill="url(#SVGID_4_)" points="131.4,205.8 147.6,214.1 256,416.5 364.4,214.1 380.6,205.8 256,438.5  "/></g><polygon fill="#FED943" points="413.7,115.6 437.1,106.5 456.1,71 287.2,121.3 283,139.6 423.2,97.9 "/><linearGradient gradientUnits="userSpaceOnUse" id="SVGID_5_" x1="368.5903" x2="368.5903" y1="135.2468" y2="75.949"><stop offset="0" style="stop-color:#FFFFFF;stop-opacity:0"/><stop offset="0.8543" style="stop-color:#FFFFFF;stop-opacity:0.8543"/><stop offset="1" style="stop-color:#FFFFFF"/></linearGradient><polygon fill="url(#SVGID_5_)" points="289.7,123.6 450.1,75.9 435,104.1 420.2,109.9 429.2,93 287.1,135.2 "/><polygon fill="#FED943" points="98.3,115.6 88.8,97.9 229,139.6 224.8,121.3 55.9,71 74.9,106.5 "/><linearGradient gradientUnits="userSpaceOnUse" id="SVGID_6_" x1="143.4097" x2="143.4097" y1="135.2468" y2="75.949"><stop offset="0" style="stop-color:#FFFFFF;stop-opacity:0"/><stop offset="0.8543" style="stop-color:#FFFFFF;stop-opacity:0.8543"/><stop offset="1" style="stop-color:#FFFFFF"/></linearGradient><polygon fill="url(#SVGID_6_)" points="82.8,93 91.8,109.9 77,104.1 61.9,75.9 222.3,123.6 224.9,135.2 "/><polygon fill="#FED943" points="256,139.1 283.9,104.1 274,147.7 318.7,147.7 278.4,167.2 286.6,182.5 266,182.8 256,226.4   246,182.8 225.1,182.7 233.6,167.2 193.3,147.7 238,147.7 228.1,104.1 "/><linearGradient gradientUnits="userSpaceOnUse" id="SVGID_7_" x1="256" x2="256" y1="212.9392" y2="116.2136"><stop offset="0" style="stop-color:#FFFFFF;stop-opacity:0"/><stop offset="0.8543" style="stop-color:#FFFFFF;stop-opacity:0.8543"/><stop offset="1" style="stop-color:#FFFFFF"/></linearGradient><polygon fill="url(#SVGID_7_)" points="248.4,179.8 230.2,179.7 237.7,165.8 206.4,150.7 241.8,150.7 233.9,116.2 256,143.9   278.1,116.2 270.2,150.7 305.6,150.7 274.3,165.8 281.7,179.6 263.6,179.8 256,212.9 "/></svg>
+				</td>
+				<td onclick="chooseteam(this)" data-team="mystic">
+					<?xml version="1.0" ?><svg enable-background="new 0 0 512 512" id="Layer_1" version="1.1" viewBox="0 0 512 512" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><polygon fill="#1965E0" points="270.1,190.4 255.8,150 241.6,190.4 255.8,230.9  "/><linearGradient gradientUnits="userSpaceOnUse" id="SVGID_1_" x1="255.8364" x2="255.8364" y1="221.1098" y2="159.7755"><stop offset="0" style="stop-color:#FFFFFF;stop-opacity:0"/><stop offset="0.92" style="stop-color:#FFFFFF;stop-opacity:0.736"/><stop offset="1" style="stop-color:#FFFFFF;stop-opacity:0.8"/></linearGradient><polygon fill="url(#SVGID_1_)" points="245,190.4 255.8,159.8 266.6,190.4 255.8,221.1  "/><polygon fill="#1965E0" points="307.7,181.7 274.4,197.6 258.5,230.9 291.7,214.9  "/><linearGradient gradientUnits="userSpaceOnUse" id="SVGID_2_" x1="283.0959" x2="283.0959" y1="223.9691" y2="188.6149"><stop offset="0" style="stop-color:#FFFFFF;stop-opacity:0"/><stop offset="0.92" style="stop-color:#FFFFFF;stop-opacity:0.736"/><stop offset="1" style="stop-color:#FFFFFF;stop-opacity:0.8"/></linearGradient><polygon fill="url(#SVGID_2_)" points="276.9,200.1 300.8,188.6 289.3,212.5 265.4,224  "/><polygon fill="#1965E0" points="204,181.7 219.9,214.9 253.2,230.9 237.2,197.6  "/><linearGradient gradientUnits="userSpaceOnUse" id="SVGID_3_" x1="228.5759" x2="228.5759" y1="223.9691" y2="188.6149"><stop offset="0" style="stop-color:#FFFFFF;stop-opacity:0"/><stop offset="0.92" style="stop-color:#FFFFFF;stop-opacity:0.736"/><stop offset="1" style="stop-color:#FFFFFF;stop-opacity:0.8"/></linearGradient><polygon fill="url(#SVGID_3_)" points="222.4,212.5 210.9,188.6 234.8,200.1 246.3,224  "/><polygon fill="#1965E0" points="256,331.7 284,274 275.2,228.3 255.8,244.7 236.8,228.3 228,274  "/><linearGradient gradientUnits="userSpaceOnUse" id="SVGID_4_" x1="255.9999" x2="255.9999" y1="324.252" y2="234.3852"><stop offset="0" style="stop-color:#FFFFFF;stop-opacity:0"/><stop offset="0.92" style="stop-color:#FFFFFF;stop-opacity:0.736"/><stop offset="1" style="stop-color:#FFFFFF;stop-opacity:0.8"/></linearGradient><polygon fill="url(#SVGID_4_)" points="231.4,273.6 238.9,234.4 255.8,249 273.1,234.4 280.6,273.6 256,324.3  "/><path d="M81.9,143.1c0,12.8,10.4,27.6,23.2,32.9l77,32.2v2.2l-76.7-32c0,12.8,10.4,27.6,23.2,32.9l53.5,22.3v2.2   l-55.1-23c0,12.8,10.4,27.6,23.2,32.9L220,274l8-27.5l-33.7-64c-7.5-14.3-20.1-26.2-33.6-31.8L55.9,106.9   c0,12.8,10.4,27.6,23.2,32.9l103.1,43v2.2L81.9,143.1z" fill="#1965E0"/><linearGradient gradientUnits="userSpaceOnUse" id="SVGID_5_" x1="142.0825" x2="142.0825" y1="269.6571" y2="111.9728"><stop offset="0" style="stop-color:#FFFFFF;stop-opacity:0"/><stop offset="0.92" style="stop-color:#FFFFFF;stop-opacity:0.736"/><stop offset="1" style="stop-color:#FFFFFF;stop-opacity:0.8"/></linearGradient><path d="M151.6,242.7c-10-4.2-18.4-14.6-20.6-24.8l54.5,22.8v-9.2L130,208.3c-10-4.2-18.4-14.6-20.7-24.8   l76.1,31.8v-9.2l-79-33c-10-4.2-18.4-14.6-20.7-24.8l99.7,41.6v-9.2L80.3,136.8c-10-4.2-18.4-14.6-20.7-24.8l99.8,41.7   c12.8,5.3,24.7,16.7,31.9,30.4l33.1,62.8l-6.6,22.8L151.6,242.7z" fill="url(#SVGID_5_)"/><path d="M351.3,150.6c-13.5,5.6-26,17.5-33.6,31.8l-33.7,64l8,27.5l69.7-28.3c12.8-5.4,23.2-20.1,23.2-32.9   l-55.1,23v-2.2l53.5-22.3c12.8-5.4,23.2-20.1,23.2-32.9l-76.7,32v-2.2l77-32.2c12.8-5.4,23.2-20.1,23.2-32.9L329.8,185v-2.2   l103.1-43c12.8-5.4,23.2-20.1,23.2-32.9L351.3,150.6z" fill="#1965E0"/><linearGradient gradientUnits="userSpaceOnUse" id="SVGID_6_" x1="369.9173" x2="369.9173" y1="269.6571" y2="111.9728"><stop offset="0" style="stop-color:#FFFFFF;stop-opacity:0"/><stop offset="0.92" style="stop-color:#FFFFFF;stop-opacity:0.736"/><stop offset="1" style="stop-color:#FFFFFF;stop-opacity:0.8"/></linearGradient><path d="M287.5,246.8l33.1-62.8c7.2-13.7,19.1-25,31.9-30.4l99.8-41.7c-2.2,10.2-10.6,20.7-20.7,24.8   l-105.1,43.9v9.2l99.7-41.6c-2.2,10.2-10.6,20.7-20.7,24.8l-79,33v9.2l76.1-31.8c-2.2,10.2-10.6,20.7-20.7,24.8l-55.5,23.1v9.2   l54.5-22.8c-2.2,10.2-10.6,20.7-20.7,24.8l-66.3,26.9L287.5,246.8z" fill="url(#SVGID_6_)"/><path d="M164.8,141.2l90.1-52l91,52.6c0.5-0.2,0.9-0.4,1.4-0.6l23.6-9.9l-116.1-67l-115.1,66.5l24.9,10.4   C164.7,141.2,164.8,141.2,164.8,141.2z" fill="#1965E0"/><linearGradient gradientUnits="userSpaceOnUse" id="SVGID_7_" x1="255.365" x2="255.365" y1="138.1638" y2="68.0376"><stop offset="0" style="stop-color:#FFFFFF;stop-opacity:0"/><stop offset="0.92" style="stop-color:#FFFFFF;stop-opacity:0.736"/><stop offset="1" style="stop-color:#FFFFFF;stop-opacity:0.8"/></linearGradient><polygon fill="url(#SVGID_7_)" points="254.9,85.5 164.6,137.6 147,130.3 254.9,68 363.7,130.8 346.1,138.2  "/><path d="M397.6,214.5v121.9l-142.7,82.4l-42.6-24.6c-0.1,0-0.2,0-0.3,0c-2-0.1-4.1-0.2-6.1-0.4l-1.5-0.1   c-0.1,0-0.2,0-0.3,0l-1.3,0c-0.5,0-1.2,0.1-1.9,0.3c-1.1,0.3-2.3,0.9-3.4,1.6c-0.4,0.3-0.8,0.7-1.4,1.2c-0.1,0.1-0.2,0.2-0.3,0.4   c-0.1,0.1-0.1,0.2-0.2,0.2l-0.9,1.3c-1.7,2.6-3.3,5.1-4.8,7.4l65,37.6l164.3-94.9V180.8c-0.9,0.6-1.8,1.3-2.8,1.8   C415,194.5,407.7,206.6,397.6,214.5z" fill="#1965E0"/><linearGradient gradientUnits="userSpaceOnUse" id="SVGID_8_" x1="305.2222" x2="305.2222" y1="440.0547" y2="195.9966"><stop offset="0" style="stop-color:#FFFFFF;stop-opacity:0"/><stop offset="0.92" style="stop-color:#FFFFFF;stop-opacity:0.736"/><stop offset="1" style="stop-color:#FFFFFF;stop-opacity:0.8"/></linearGradient><path d="M194.4,405.1c1-1.5,2-3,3-4.6l0.8-1.1l0.3-0.4c0.4-0.4,0.6-0.6,0.9-0.8c0.7-0.6,1.5-0.9,2.2-1.1   c0.4-0.1,0.8-0.2,1.2-0.2l1,0c0.1,0,1.8,0.1,1.8,0.1c1.9,0.1,3.9,0.2,5.7,0.3l43.6,25.2l146-84.3V216.1   c6.5-5.5,11.8-12.6,15.1-20.1v151.1l-161.1,93L194.4,405.1z" fill="url(#SVGID_8_)"/><path d="M176.1,389.5l0.9-2.3c0.3-0.7,0.7-1.4,1-2l0.4-0.8c1.2-1.9,2.3-3.6,3.6-5c0.5-0.6,1-1.1,1.6-1.6l-71.6-41.3   V212.7c-8.9-7.9-15.3-19.1-16.7-30.1c-1.7-1-3.4-2.2-4.9-3.5v169.8l82.9,47.9C174.3,394.5,175.2,392,176.1,389.5z" fill="#1965E0"/><linearGradient gradientUnits="userSpaceOnUse" id="SVGID_9_" x1="136.2179" x2="136.2179" y1="392.0442" y2="190.1347"><stop offset="0" style="stop-color:#FFFFFF;stop-opacity:0"/><stop offset="0.92" style="stop-color:#FFFFFF;stop-opacity:0.736"/><stop offset="1" style="stop-color:#FFFFFF;stop-opacity:0.8"/></linearGradient><path d="M93.8,347.1V190.1c2.6,8.7,8,17.3,15.1,24v124.2l69.7,40.2c-1,1.3-2,2.6-2.9,4.2l-0.5,0.9   c-0.4,0.7-0.8,1.5-1.2,2.3l-0.9,2.3c-0.5,1.3-0.9,2.5-1.4,3.7L93.8,347.1z" fill="url(#SVGID_9_)"/><path d="M190.7,395.1l0.4-0.6c0.3-0.4,0.6-0.8,0.9-1.1c0.7-0.7,1.4-1.4,2.2-2c1.6-1.2,3.4-2.1,5.4-2.6   c1-0.2,2-0.4,3-0.4c0.5,0,1,0,1.6,0l0.6,0c0.1,0-0.4,0-0.2,0l0.1,0l0.1,0l0.3,0l1.1,0.1c3.1,0.2,6.2,0.3,9.4,0.5   c3.2,0.2,6.4,0.3,9.7,0.4c1.6,0.1,3.3,0.1,5,0.2c1.7,0,3.3,0.1,5,0.1c6.7,0.2,13.5,0.2,20.3,0.3c6.8,0,13.6-0.1,20.3-0.3l1.3,0   c0.4,0,0.8,0,1.4-0.1c1.2-0.1,2.3-0.2,3.5-0.3c1.1-0.2,2.3-0.5,3.4-0.8c1.1-0.3,2.2-0.8,3.3-1.2c4.2-1.8,7.9-4.7,10.6-8.1   c5.5-6.8,7.3-15.8,5.3-23.3c-0.2-0.9-0.6-2-0.9-3l-0.6-1.5c-0.2-0.4-0.3-0.7-0.5-1c-0.4-0.8-0.8-1.5-1.2-2.3   c-0.5-0.8-1-1.5-1.6-2.2c-1.1-1.4-2.3-2.6-3.6-3.7c-1.3-1.1-2.6-2-4-2.8c-2.8-1.5-5.7-2.4-8.5-2.8c-0.7-0.1-1.4-0.1-2.1-0.2   c-0.7,0-1.5,0-2.1,0c-0.6,0.1-1.2,0.1-1.8,0.2c-0.5,0.1-1.1,0.1-1.6,0.2c-4.1,0.6-7.8,1.1-10.7,1.6c-6,1-9.4,1.7-9.4,1.7   s3.4,0.8,9.4,1.7c3,0.5,6.6,1,10.7,1.6c0.5,0.1,1,0.1,1.6,0.2c0.5,0.1,1,0.2,1.5,0.2c0.5,0.1,0.8,0.2,1.2,0.3   c0.4,0.2,0.9,0.3,1.3,0.5c1.7,0.7,3.4,1.7,4.9,3c1.5,1.3,2.7,2.9,3.6,4.6c0.2,0.4,0.4,0.9,0.6,1.4l0,0.1l0,0c0,0.1-0.3-0.6-0.2-0.3   l0.1,0.2l0.2,0.5l0.4,1c0.1,0.3,0.3,0.7,0.3,1l0,0.6c0,0.4,0.1,0.7,0.1,1.3c0.4,4-1.3,8.1-4.1,11c-1.5,1.4-3.2,2.5-5,3.1   c-0.5,0.1-0.9,0.3-1.4,0.4c-0.5,0.1-1,0.1-1.5,0.2c-0.5,0-1,0-1.5,0c-0.2,0-0.7,0-1.1,0l-1.3,0c-6.7-0.2-13.5-0.2-20.3-0.3   c-6.8,0-13.6,0.1-20.3,0.3c-1.7,0-3.3,0.1-5,0.1c-1.7,0.1-3.3,0.1-5,0.2c-3.3,0.1-6.5,0.2-9.7,0.4c-3.2,0.2-6.3,0.3-9.4,0.5   l-1.1,0.1l-0.3,0l-0.1,0l-0.1,0l-0.3,0l-0.6,0.1l-0.6,0.1l-0.3,0l-0.4,0.1l-1.7,0.2c-2,0.4-3.9,1-5.6,1.8c-3.5,1.6-6.6,3.8-8.9,6.5   c-1.2,1.3-2.2,2.7-3,4.2c-0.4,0.7-0.8,1.5-1.1,2.2c-0.2,0.4-0.3,0.7-0.5,1.1l-0.3,0.9c-1.8,4.8-3.4,9.3-4.7,13.2   c-1.3,4-2.5,7.4-3.3,10.3c-1.8,5.8-2.6,9.2-2.6,9.2s2.2-2.7,5.7-7.6c1.8-2.4,3.9-5.4,6.2-8.9c2.3-3.5,4.9-7.4,7.7-11.7L190.7,395.1   z" fill="#1965E0"/><linearGradient gradientUnits="userSpaceOnUse" id="SVGID_10_" x1="240.672" x2="240.672" y1="406.5609" y2="339.835"><stop offset="0" style="stop-color:#FFFFFF;stop-opacity:0"/><stop offset="0.92" style="stop-color:#FFFFFF;stop-opacity:0.736"/><stop offset="1" style="stop-color:#FFFFFF;stop-opacity:0.8"/></linearGradient><path d="M179.5,405.7c1.3-4,2.9-8.4,4.7-13.1l0.3-0.8l0.4-1c0.2-0.5,0.4-0.9,0.7-1.4   c0.1-0.2,0.2-0.4,0.3-0.6c0.9-1.4,1.7-2.6,2.6-3.6c2.1-2.3,4.8-4.3,7.8-5.7c1.5-0.7,3.1-1.2,4.9-1.5l1.6-0.2l0.4,0l1.2-0.1l0.3,0   l1.6-0.1c2-0.1,3.9-0.2,5.9-0.3c1.1-0.1,2.3-0.1,3.4-0.2c2.5-0.1,5.1-0.2,7.8-0.3l6.9-0.3l5-0.1c5.6-0.2,11.5-0.2,17.1-0.2l3.1,0   l2.4,0c5.9,0,11.9,0.1,17.8,0.3c0,0,2,0,2.2,0c0.2,0,0.4,0,0.5,0c0.3,0,0.6,0,0.9,0l0.6,0l0.3-0.1c0.4-0.1,0.8-0.1,1.2-0.2l0.2,0   l0.2,0c0.3-0.1,0.6-0.2,0.9-0.2c0.2,0,0.3-0.1,0.5-0.1l0.2,0l0.2-0.1c2.3-0.8,4.4-2.1,6.2-3.9c3.6-3.6,5.5-8.6,5.1-13.4   c0-0.6-0.1-1-0.1-1.2l0-0.1l-0.1-0.8l0-0.1c-0.1-0.5-0.2-0.9-0.3-1.2c0-0.1-0.7-2-0.7-2l0,0l-0.2-0.4c-0.2-0.4-0.4-0.8-0.6-1.2   c-1-2.1-2.5-3.9-4.3-5.6c-1.6-1.4-3.5-2.6-5.7-3.5c-0.4-0.2-0.8-0.3-1.1-0.4c-0.1,0-0.2-0.1-0.4-0.1l-0.1,0l-0.4-0.1   c-0.3-0.1-0.7-0.2-1.1-0.3l-0.1,0l-1.6-0.3c0,0-2.2-0.3-2.5-0.3c0.3,0,2.3-0.3,2.3-0.3l1.6-0.1c0.2,0,0.5,0,0.7,0c0.3,0,0.7,0,1,0   c0.2,0,0.4,0,0.6,0c0.4,0,0.8,0,1.1,0.1l0.1,0c2.5,0.3,5,1.1,7.4,2.4c1.2,0.6,2.4,1.5,3.5,2.4c1.1,0.9,2.2,2,3.2,3.3   c0.5,0.6,0.9,1.1,1.3,1.8l1.2,2.2c0,0.1,0.1,0.2,0.2,0.4c0.1,0.1,0.1,0.2,0.2,0.3l0.5,1.4l0.2,0.5c0.2,0.6,0.5,1.4,0.6,1.8l0,0.1   l0,0.1c1.8,6.8,0,14.7-4.7,20.5c-2.4,3.1-5.6,5.5-9.3,7.1l-0.6,0.2c-0.8,0.3-1.5,0.6-2.3,0.8c-1,0.3-2,0.5-3.1,0.7   c-0.9,0.1-1.7,0.2-2.7,0.2l-0.5,0c-0.4,0-0.6,0-0.9,0l-1.6,0c-5.9,0.2-11.9,0.2-17.8,0.3l-2.5,0l-3.1,0c-5.6,0-11.5-0.1-17.1-0.2   l-5-0.1l-6.8-0.3c-2.7-0.1-5.2-0.2-7.8-0.3c-1.2-0.1-2.3-0.1-3.4-0.2c-1.5-0.1-3-0.1-4.4-0.2l0-0.2h-3.2l-0.5,0l-1.7,0l-0.1,0   c-1.1,0.1-2.2,0.2-3.5,0.5c-2.4,0.6-4.6,1.6-6.6,3.1c-1.1,0.8-2,1.7-2.6,2.4l-0.1,0.1l-0.1,0.1c-0.1,0.1-0.2,0.2-0.3,0.3   c-0.2,0.3-0.5,0.6-0.8,1l-0.5,0.6l-0.6,0.9c-2.7,4.3-5.3,8.2-7.7,11.7c-0.2,0.3-0.4,0.5-0.5,0.8C179.3,406.3,179.4,406,179.5,405.7   z" fill="url(#SVGID_10_)"/></g></svg>
+				</td>
+				<td onclick="chooseteam(this)" data-team="valor">
+					<?xml version="1.0" ?><svg enable-background="new 0 0 512 512" id="Layer_1" version="1.1" viewBox="0 0 512 512" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><path d="M95.6,256.9H76.9c0,72.2,42.9,136.9,109.4,165l7.3-17.2C134.1,379.5,95.6,321.5,95.6,256.9z" fill="#C23117"/><linearGradient gradientUnits="userSpaceOnUse" id="SVGID_1_" x1="134.8296" x2="134.8296" y1="418.2322" y2="259.6881"><stop offset="0" style="stop-color:#FFFFFF;stop-opacity:0"/><stop offset="0.8543" style="stop-color:#FFFFFF;stop-opacity:0.6834"/><stop offset="1" style="stop-color:#FFFFFF;stop-opacity:0.8"/></linearGradient><path d="M184.8,418.2c-63.1-27.9-104-89.6-105.1-158.5h13.1c1.1,63.7,38.9,120.7,97.1,146.5L184.8,418.2z" fill="url(#SVGID_1_)"/><path d="M331.4,398.6l8.8,16.5c58.6-31.2,95-91.8,95-158.2h-18.7C416.5,316.3,383.9,370.6,331.4,398.6z" fill="#C23117"/><linearGradient gradientUnits="userSpaceOnUse" id="SVGID_2_" x1="383.7427" x2="383.7427" y1="411.2446" y2="259.6881"><stop offset="0" style="stop-color:#FFFFFF;stop-opacity:0"/><stop offset="0.8543" style="stop-color:#FFFFFF;stop-opacity:0.6834"/><stop offset="1" style="stop-color:#FFFFFF;stop-opacity:0.8"/></linearGradient><path d="M335.2,399.7c51.1-28.4,83.1-81.6,84.1-140h13.1c-1,63.3-35.6,120.9-91,151.6L335.2,399.7z" fill="url(#SVGID_2_)"/><path d="M256,96.5c44,0,85,17.5,115.6,49.2l13.5-13C351,97.3,305.2,77.8,256,77.8c-25,0-49.3,5.1-72,15.1   c-22,9.6-41.5,23.4-58.1,40.9l13.6,12.9C170.2,114.2,211.5,96.5,256,96.5z" fill="#C23117"/><linearGradient gradientUnits="userSpaceOnUse" id="SVGID_3_" x1="255.5257" x2="255.5257" y1="142.6136" y2="80.5679"><stop offset="0" style="stop-color:#FFFFFF;stop-opacity:0"/><stop offset="0.8543" style="stop-color:#FFFFFF;stop-opacity:0.6834"/><stop offset="1" style="stop-color:#FFFFFF;stop-opacity:0.8"/></linearGradient><path d="M130,133.6c15.9-16.3,34.4-29.1,55.2-38.2c22.4-9.8,46.2-14.8,70.9-14.8c47.4,0,91.7,18.5,125.1,52   l-9.4,9.1c-30.8-31-71.8-48-115.6-48c-44.3,0-85.6,17.4-116.6,49L130,133.6z" fill="url(#SVGID_3_)"/><path d="M256.5,326.9c0,0,15-43.7,54.9-69.8c5.3-3.5,32.3,13,37.7,9.5c5.8-3.8,11.6-7.6,17.3-11.3   c32.8-21.4,61.5-40.2,66.5-43.8c-26.6,3.1-32.1-7-32.1-7c58.1-26.7,33.6-72.3,33.6-72.3c1.8,20.8-23,29.3-23,29.3   c12.7-23.2-8.7-59.2-8.7-59.2c12.6,52.5-68,103.4-114.8,128.2c-3.4,8.2-10,15-18.4,18.5l-13.1,63.6L243.4,249   c-8.4-3.5-15-10.3-18.4-18.5c-46.8-24.7-127.4-75.7-114.8-128.2c0,0-21.4,36-8.7,59.2c0,0-24.9-8.5-23-29.3   c0,0-24.5,45.5,33.6,72.3c0,0-5.5,10.1-32.1,7c5,3.5,33.7,22.3,66.5,43.8c5.7,3.7,11.5,7.5,17.3,11.3c5.4,3.5,32.4-13,37.7-9.5   C241.5,283.1,256.5,326.9,256.5,326.9z" fill="#C23117"/><linearGradient gradientUnits="userSpaceOnUse" id="SVGID_4_" x1="256.4809" x2="256.4809" y1="319.3449" y2="117.2215"><stop offset="0" style="stop-color:#FFFFFF;stop-opacity:0"/><stop offset="0.92" style="stop-color:#FFFFFF;stop-opacity:0.736"/><stop offset="1" style="stop-color:#FFFFFF;stop-opacity:0.8"/></linearGradient><path d="M256.5,319.3c-5.9-13.4-22-44.1-53.4-64.6c-1-0.6-2.2-0.9-3.6-0.9c-4.2,0-10.8,2.6-17.7,5.4   c-5.9,2.4-12.6,5-15.7,5c-0.5,0-0.7-0.1-0.7-0.1c-5.8-3.8-11.6-7.6-17.3-11.3c-28.1-18.4-47.5-31.1-58-38c19.1-0.2,24-8.2,24.5-9.1   l1.4-2.6l-2.7-1.3c-18.6-8.5-30.3-19.9-34.9-33.6c-3.1-9.3-2.4-18-0.9-24.5c1.9,4.8,5.3,9.2,10.2,13c6.3,5,12.8,7.2,13,7.3l6.8,2.3   l-3.5-6.3c-7.1-13-2.5-30.8,2.3-42.9c3.5,47.8,72.3,91.8,116.6,115.3c3.7,8.1,10.2,14.7,18.1,18.5l12.8,62.2h5.5L272,251   c8-3.7,14.5-10.4,18.1-18.5C334.5,209,403.3,165,406.8,117.2c4.8,12.1,9.4,29.9,2.3,42.9l-3.5,6.3l6.8-2.3   c0.9-0.3,17.6-6.2,23.2-20.2c1.4,6.4,2.1,15.2-1,24.4c-4.6,13.8-16.4,25.1-34.9,33.6l-2.7,1.3l1.4,2.6c0.5,0.9,5.4,8.9,24.5,9.1   c-10.5,7-29.9,19.7-58,38c-5.7,3.7-11.5,7.5-17.3,11.3c0,0,0,0,0,0c0,0-0.2,0-0.6,0c-3.2,0-9.8-2.7-15.7-5   c-7-2.8-13.5-5.4-17.7-5.4c-1.5,0-2.7,0.3-3.6,0.9C278.5,275.2,262.4,305.9,256.5,319.3z" fill="url(#SVGID_4_)"/><path d="M248.2,244.8l8.3,40l8.3-40c11.8-3.5,20.3-14.5,20.3-27.4c0-15.8-12.8-28.6-28.6-28.6   c-15.8,0-28.6,12.8-28.6,28.6C227.9,230.4,236.5,241.3,248.2,244.8z" fill="#C23117"/><linearGradient gradientUnits="userSpaceOnUse" id="SVGID_5_" x1="256.4874" x2="256.4874" y1="270.9524" y2="191.6594"><stop offset="0" style="stop-color:#FFFFFF;stop-opacity:0"/><stop offset="0.8543" style="stop-color:#FFFFFF;stop-opacity:0.6834"/><stop offset="1" style="stop-color:#FFFFFF;stop-opacity:0.8"/></linearGradient><path d="M250.6,242.6l-1.6-0.5c-10.8-3.3-18.3-13.4-18.3-24.7c0-14.2,11.6-25.8,25.8-25.8   c14.2,0,25.8,11.6,25.8,25.8c0,11.3-7.5,21.4-18.3,24.7l-1.6,0.5l-5.8,28.3L250.6,242.6z" fill="url(#SVGID_5_)"/><path d="M243.1,173.7c-2.5-6.7,7.8-12.1,7.8-12.1c12.4,16.1-1.7,18.2-1.7,18.2c20.2,13.1,33-13.3,25-29   c-3-5.8-6-10.3-3.8-17.5c-4.7,2.7-9,7.7-7.1,14.2c3.7,12.5-14.1,13.2-7.4-5.1c6.7-18.3-5-29.9-5-29.9s1.9,11.1-10.8,29.1   C227.5,159.7,243.1,173.7,243.1,173.7z" fill="#C23117"/><linearGradient gradientUnits="userSpaceOnUse" id="SVGID_6_" x1="255.8831" x2="255.8831" y1="180.5876" y2="120.9836"><stop offset="0" style="stop-color:#FFFFFF;stop-opacity:0"/><stop offset="0.8543" style="stop-color:#FFFFFF;stop-opacity:0.6834"/><stop offset="1" style="stop-color:#FFFFFF;stop-opacity:0.8"/></linearGradient><path d="M259.7,180.6c-1.3,0-2.7-0.2-4.2-0.7c1-0.9,1.9-2,2.5-3.5c1.7-4.3,0.1-9.8-5-16.4l-1.4-1.9l-2.1,1.1   c-2.8,1.5-6.5,4.2-8.4,7.7c-3.1-5-5.8-13.6,1.2-23.6c6.6-9.3,9.4-17,10.6-22.4c2.1,4.7,3.5,11.8,0.3,20.6   c-2.9,7.9-1.5,12.4,0.1,14.8c1.4,2,3.5,3.1,5.8,3.1c0,0,0,0,0,0c2.2,0,4.3-1.1,5.7-2.9c1.8-2.5,2.2-5.9,1.1-9.7   c-0.8-2.6-0.2-4.8,1-6.6c0.5,3.8,2.2,7,3.8,10.1c0.3,0.6,0.6,1.1,0.9,1.7c3.2,6.3,2.7,15.2-1.2,21.6   C268.9,176.3,265.4,180.6,259.7,180.6z" fill="url(#SVGID_6_)"/><path d="M310.4,428.7c0,0,0-2.1-1-11.2c-4.3,11.5-26.1,25.9-39.8,14.3c-12.5-10.6,1.9-24,1.9-24s-2.3,7.1,10.9,10   c0,0-8.3-10.2-2.5-20.2c27.9-47.7-23.3-34-7.2-73.9c-8.9,6.7-35.9,23.6-30.2,38.5l0,0c13.6,20.7-4.8,21.4-17.2,31.2   c-14.9,11.8-24.3,38-10,52.3c0,0-3.7-19.9,5.6-22.4c0,0,13.4,45.5,61.3,36.7c46.8-8.6,47.7-46,38.3-57.2   C320.7,402.9,324.7,425,310.4,428.7z" fill="#C23117"/><linearGradient gradientUnits="userSpaceOnUse" id="SVGID_7_" x1="266.79" x2="266.79" y1="458.4043" y2="331.0244"><stop offset="0" style="stop-color:#FFFFFF;stop-opacity:0"/><stop offset="0.8543" style="stop-color:#FFFFFF;stop-opacity:0.6834"/><stop offset="1" style="stop-color:#FFFFFF;stop-opacity:0.8"/></linearGradient><path d="M270.4,458.4c-35.7,0-46.3-34.4-46.7-35.8l-0.8-2.6l-2.6,0.7c-5.9,1.6-7.9,7.8-8.3,13.7   c-0.8-3.1-1-6.1-0.8-8.5c0.6-11,7.1-23.1,16-30.1c2.9-2.3,6.2-4.1,9.4-5.8c6.1-3.3,11.8-6.4,13.3-12.4c1.1-4.5-0.4-9.7-4.7-16.4   c-3.5-10,12.3-22.6,22.5-30c-3.1,14.3,3.6,21,9.6,27c7.7,7.7,14.3,14.4,0.4,38.2c-3.5,6-2.7,11.9-1.2,16.3   c-0.8-0.5-1.3-1.1-1.7-1.7c-0.7-1.2-0.5-2.1-0.5-2.2l-4.6-2.8c-0.3,0.3-8.1,7.6-7.9,16.4c0.1,4.4,2.1,8.4,6.1,11.7   c3.9,3.3,8.5,5,13.8,5c0,0,0,0,0,0c9.7,0,19.8-5.9,25.9-12.9c0.2,2.1,0.2,2.7,0.2,2.8l0.1,3.5l3.4-0.9c6.4-1.7,9.7-6.2,11.4-11.2   c-0.2,3.1-0.8,6.4-2,9.7c-5.1,14-18.8,23.7-38.7,27.4C277.9,458,274.1,458.4,270.4,458.4z" fill="url(#SVGID_7_)"/></g></svg>
+				</td>
+			</tr>
+		</table>
+		<input type="button" value="Registrera" onclick="login()">
 	</div>
-		<div class="head wrappertable noselect">
-			<div class="wrapperrow">
-				<div class="wrappercell">
-					<i class="fas fa-info-circle" data-active="false" id="infoicon" onclick="showmenu(this)"></i>
-				</div>
-				<div class="wrappercell">
-					<p>PatientDagboken</p>
-				</div>
-				<div class="wrappercell">
-					<i class="fas fa-qrcode" data-active="false" id="qricon"></i>
-				</div>
-			</div>
+	<div id="wrapper" style="display: none;">
+		<div id="meny">
+			<input type="button" value="Byt användare" onclick="changeuser();"><span id="anvandarnamn"></span><input type="button" value="Lägg till raid" onclick="addraid(this);">
 		</div>
-		<div id="menu" class="wrapper noselect" style="display: none;">
-			<p>Test 1</p>
-			<p>Vad är PatientDagboken?</p>
+		<div id="addraid" style="display: none;">
+			<p>Skärmdump</p>
+			<input type="file" id="raidimage" onchange="getBase64(this.files[0]);"><br/>
+			<textarea id="raidimagetext"></textarea><br/>
+			<img src="" id="raidimagepreview"><br/>
+			<p>Föreslagen tid</p>
+			<input type="time" id="raidtid">
+			<p>Kommentar</p>
+			<textarea id="raidkommentar"></textarea><br/>
+			<input type="button" value="Posta!" onclick="postraid();">
 		</div>
-		<div id="password" class="noselect wrapper" style="display: none;">
-			<input type="tel" id="pwinput" style="display: none;">
-			<p id="pwhead">Skriv lösenord</p>
-			<table><tr id="pwdots">
-				<td><span></span></td>
-				<td><span></span></td>
-				<td><span></span></td>
-				<td><span></span></td>
-			</tr></table>
-			<table id="pwnumbers"><tr>
-				<td onclick="addpwnum(this)">1</td>
-				<td onclick="addpwnum(this)">2</td>
-				<td onclick="addpwnum(this)">3</td>
-			</tr><tr>
-				<td onclick="addpwnum(this)">4</td>
-				<td onclick="addpwnum(this)">5</td>
-				<td onclick="addpwnum(this)">6</td>
-			</tr><tr>
-				<td onclick="addpwnum(this)">7</td>
-				<td onclick="addpwnum(this)">8</td>
-				<td onclick="addpwnum(this)">9</td>
-			</tr><tr>
-				<td onclick="removepwnum()"><i class="far fa-caret-square-left"></i></td>
-				<td onclick="addpwnum(this)">0</td>
-			</tr></table>
+		<div id="posts">
+			
 		</div>
-		<div id="qrwrapper" class="noselect wrapper" style="display: none;">
-			<input type="text" id="key">
-			<img src="#" id="qrimg" alt="User ID">
-		</div>
-		<div id="patient" class="wrapper" style="display: none;">
-			<div id="datumhead" class="noselect">
-				<div class="wrappertable">
-					<div class="wrapperrow">
-						<div class="wrappercell">
-							<i class="fas fa-caret-square-left" onclick="annandag('-')" id="dateback"></i>
-						</div>
-						<div class="wrappercell" id="datum" onclick="writeCal()" data-inside="dat">
-							20XX-XX-XX
-						</div>
-						<div class="wrappercell">
-							<i class="fas fa-caret-square-right" onclick="annandag('+')" id="forward"></i>
-						</div>
-					</div>
-				</div>
-				<!-- <div id="calendar">
-
-				</div> -->
-			</div>
-			<div id="bedomningwrapper">
-				<div id="bedomning"></div>
-			</div>
-			<div id="infowrapper">
-				<div id="info"> <!--  onkeyup="save();" -->
-					<div id="editor"></div>
-				</div>
-			</div>
-		</div>
-		<!-- <div class="succe" style="display: none;">
-			<div class="suceewrapper">
-				<p>Du är nu kopplad till vårdpersonalen!</p><br/>
-				<img src="extra/succe.png" width="60%">
-			</div>
-		</div> -->
-		<div id="informationswrappers"></div>
-		<div id="preview" class="wrapper"></div>
-<script src="script/quill.min.js"></script>
-<script>
-	var toolbarOptions = [
-		['bold', 'italic', 'underline'],
-		[{ 'header': 1 }, { 'header': 2 }, { 'header': [1, 2, 3, false] }],
-		[{ 'font': [] }],
-		[{ 'list': 'ordered'}, { 'list': 'bullet' }],
-		[{ 'align': [] }],
-		[{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-		[{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-		[{ 'direction': 'rtl' }],
-		['image', 'video'],
-		['clean']
-	];
-	var quill = new Quill('#editor', {
-		modules: {
-			toolbar: toolbarOptions
-		},
-		theme: 'snow'
-	});
-	quill.on('text-change', function(delta, oldDelta, source) {
-		if (source == 'api') {
-			console.log("An API call triggered this change.");
-		} else if (source == 'user') {
-			save();
-		};
-	});
-</script>
-<script type="application/javascript" src="script/main.js"></script>
+	</div>
 <script src="socket.io/socket.io.js"></script>
 <script type="text/javascript">
+	function getBase64(file) {
+		console.log('Laddar');
+		var reader = new FileReader();
+			reader.readAsDataURL(file);
+			reader.onload = function () {
+				console.log(reader.result)
+				document.getElementById('raidimagetext').value = reader.result;
+				document.getElementById('raidimagepreview').src = reader.result;
+			};
+			reader.onerror = function (error) {
+				console.log('Error: ', error);
+			};
+	};
+	function addraid(element){
+		element.value = 'Avbryt';
+		element.setAttribute('onclick', 'hideaddreaid(this);');
+		document.getElementById('addraid').removeAttribute('style');
+	};
+	function hideaddreaid(element){
+		document.getElementById('raidimage').value = '';
+		document.getElementById('raidimagetext').value = '';
+		document.getElementById('raidimagepreview').src = '';
+		document.getElementById('raidtid').value = '';
+		document.getElementById('raidkommentar').value = '';
+		element.value = 'Lägg till raid';
+		element.setAttribute('onclick', 'addraid(this);');
+		document.getElementById('addraid').setAttribute('style', 'display: none;');
+	};
+	function postraid(){
+		socket.emit('postraid', {raidimage: document.getElementById('raidimagetext').value, raidtid: document.getElementById('raidtid').value, raidkommentar: document.getElementById('raidkommentar').value});
+	};
+	function changeuser(){
+		localStorage.removeItem('userdata');
+		location.reload();
+	};
+	function chooseteam(element){
+		var allteam = document.getElementById('teamwrapper').getElementsByTagName('td');
+		for (var i = allteam.length - 1; i >= 0; i--) {
+			allteam[i].removeAttribute('class');
+		};
+		element.setAttribute('class', 'chosenteam');
+	};
 	var geturl = window.location.href.replace('http://', '').replace('https://', '').split('/')[0];
 	//Lyssnar om server säger något
 	var socket = io.connect(geturl);
 	// Berättar för användare ifall koppling till server försvinner
-	function aterstall(){
-		var qricon = document.getElementById('qricon');
-		if(qricon.getAttribute('data-active') == 'true'){
-			showqr(qricon);
+	function load(){
+		if(!localStorage.getItem('userdata')){
+			document.getElementById('registrera').removeAttribute('style');
+		}else{
+			socket.emit('login', localStorage.getItem('userdata'));
 		};
 	};
+	function login(){
+		document.getElementById('registrera').setAttribute('style', 'display: none;');
+		var username = document.getElementById('username').value;
+		if(username == ''){
+			var username = 'Anonym';
+		};
+		var allteam = document.getElementById('teamwrapper').getElementsByTagName('td');
+		for (var i = allteam.length - 1; i >= 0; i--) {
+			if(allteam[i].getAttribute('class') == 'chosenteam'){
+				var team = allteam[i].getAttribute('data-team');
+			};
+		};
+		localStorage.setItem('userdata', '{"username": "' + username + '", "team": "' + team + '"}');
+		socket.emit('login', '{"username": "' + username + '", "team": "' + team + '"}');
+	};
+	socket.on('sendinfo', function (data) {
+		document.getElementById('wrapper').removeAttribute('style');
+		var userwrapper = document.getElementById('anvandarnamn');
+			userwrapper.appendChild(document.createTextNode(data.userinfo.username));
+		document.getElementById('meny').setAttribute('class', data.userinfo.team);
+		console.log(data.dataraidsfirst);
+		if(!data.dataraidsfirst){}else{
+			var wrapper = document.getElementById('posts');
+			for (var i = data.dataraidsfirst.length - 1; i >= 0; i--) {
+				console.log(data.dataraidsfirst[i]);
+				var body = document.createElement('span');
+					body.setAttribute('class', 'postbody');
+					var user = document.createElement('span');
+						user.setAttribute('class', data.dataraidsfirst[i].team);
+						var username = document.createTextNode(data.dataraidsfirst[i].username);
+						user.appendChild(username);
+					body.appendChild(user);
+					var kommentar = document.createElement('p');
+						var kommentartext = document.createTextNode(data.dataraidsfirst[i].raidtid + ' ' + data.dataraidsfirst[i].raidkommentar)
+						kommentar.appendChild(kommentartext);
+					body.appendChild(kommentar);
+					var img = document.createElement('img');
+						img.setAttribute('src', data.dataraidsfirst[i].raidimage);
+						img.setAttribute('class', 'raidimage');
+					body.appendChild(img);
+				wrapper.appendChild(body);
+			};
+		};
+	});
 	socket.on('disconnect', function () {
-		document.getElementById('qrimg').removeAttribute('src');
-		document.getElementById('key').value = '';
-		document.getElementById('qricon').setAttribute('onclick', 'error(\'error\', \'Du är offline.\')');
-		error('error', 'Du är offline.');
-		aterstall();
-	});
-	socket.on('kopplingbruten', function (info) {
-		console.log('Koppling bruten')
-		error(info.type, info.text);
-		aterstall();
-	});
-	socket.on('message', function (data) {console.log(data);});
-	socket.on('key', function(data) {
-		console.log(data);
-		document.getElementById('qricon').setAttribute('onclick', 'showqr(this)');
-		document.getElementById('qrimg').setAttribute('src', '/img/qr.svg?' + data);
-		document.getElementById('key').value = data;
-	});
-	socket.on('succsess', function(data) {
-		console.log('Du kan nu ta mot information!');
-		var audio = new Audio('ljud/connect.mp3');
-			audio.play();
-		// enable vibration support
-		navigator.vibrate = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
-		if (navigator.vibrate) {
-			// vibration API supported
-			navigator.vibrate(500);
-		};
-		error('info', 'Du är nu parkopplad med vårdpersonalen.');
-		socket.emit('confirm', data);
-		var qricon = document.getElementById('qricon');
-		if(qricon.getAttribute('data-active') == 'true'){
-			showqr(qricon);
-		};
-	});
-	socket.on('pasteinfo', function(data) {
-		console.log('Det borde komma info här!');
-		console.log(data);
-		annandag('=', getDate().datum);
-		pasteinfo(data);
-		save();
-		var qricon = document.getElementById('qricon');
-		if(qricon.getAttribute('data-active') == 'true'){
-			showqr(qricon);
-		};
-		error('good', 'Du har nu fått information från vårdpersonal i din dagbok.');
-	});
-	socket.on('skrivin', function(data) {
-		error('good', 'Du är nu inskriven på avdelningen.');
-		localStorage.setItem('skrivin', JSON.stringify(data));
-		bulidmenu();
-		showwrapper('patient');
+		location.reload();
 	});
 </script>
 </body>
