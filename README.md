@@ -56,17 +56,16 @@ För att kommunikation ska kunna ske mellan vårpersonalens applikation och pati
 Detta projekt ämnar att om den faller ut väl att bli en produkt, men även att inspirera andra som jobbar med digitala dagbokslösningar.
 
 ## Kvar att göra
-* Skriva färdigt detta Readme dokumentet, översätta till engelsk version.
-* Testa Personalapplikationen och QR läsaren på en Android telefon.
+* ~~Testa Personalapplikationen och QR läsaren på en Android telefon.~~
 * Testa dagboken en längre tid.
 * Skapa en grundmall och översätt till några språk.
 * Att göra lista i PatientDagboken - Så patient kan skriva upp saker som de vill ta upp på ronden.
 * Offline funktion för Dagboksvyn.
-* Design/Stil/CSS, mobil och datoranpassad.
+* ~~Design/Stil/CSS, mobil och datoranpassad.~~
 * Sökfunktion i dagboken.
 * Inlogg för vårdpersonal, så de kommer åt sina specifika mallar och informationssidor.
 * Malljusterings verktyget.
-* Ta bort modal lösning och ersätt med helvy av iframe. Alt enbart göra det för sidor som behöver iframe formatet och ha kvar på bilder & filmer.
+* ~~Ta bort modal lösning och ersätt med helvy av iframe. Alt enbart göra det för sidor som behöver iframe formatet och ha kvar på bilder & filmer.~~
 
 ## Sponsorer
 I nuläget finns inga sponsorer för detta projektet.
