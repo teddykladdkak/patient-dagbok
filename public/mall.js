@@ -145,7 +145,7 @@ var mall = {
 			}, {
 				"typ": "video",
 				"text":  "Instruktions video.",
-				"href": "https://www.teddyprojekt.tk/privat/vatskelista/vatskelista.mp4"
+				"href": "https://www.teddyprojekt.se/privat/vatskelista/vatskelista.mp4"
 			}]
 		}]
 	},{
